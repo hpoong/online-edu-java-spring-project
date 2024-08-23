@@ -8,3 +8,10 @@ logging:
   config: classpath:logback/logback-srping.xml
   level:
     root: info
+
+spring:
+  datasource:
+    url: jdbc:mariadb://${DB_Address}:${DB_Port}/${DB_Name}
+    username: ${DB_Username}
+    password: ${DB_Password}
+    driverClassName: org.mariadb.jdbc.Driver

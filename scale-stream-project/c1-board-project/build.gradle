@@ -20,7 +20,13 @@ repositories {
 dependencies {
 
 	// springframework
-	implementation 'org.springframework.boot:spring-boot-starter-web'		// web
+	implementation 'org.springframework.boot:spring-boot-starter-web'			// web
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'	// redis
+
+	// database
+	implementation("org.mariadb.jdbc:mariadb-java-client:3.3.2") 						// mariadb
+	implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3")			// mybatis
+
 
 
 	// lombok
