@@ -15,3 +15,13 @@ spring:
     username: ${DB_Username}
     password: ${DB_Password}
     driverClassName: org.mariadb.jdbc.Driver
+  cache:
+    type: redis
+  data:
+    redis:
+      host: ${Redis_Address}
+      port: ${Redis_Port}
+      repositories:
+        enabled: false
+      expire:
+        defaultTime: 600 # 1분
