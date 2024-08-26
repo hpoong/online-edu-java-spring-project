@@ -6,7 +6,6 @@
 <mapper namespace="com.hopoong.board.api.post.mapper.PostMapper">
 
 
-
     <insert id="insertPostsBatch" parameterType="java.util.List">
         INSERT INTO posts (name, contents, createTime, views, categoryId, userId, fileId, updateTime)
         VALUES
@@ -16,12 +15,12 @@
     </insert>
 
 
-    <select id="findAllByNoCache" resultType="com.hopoong.board.api.post.model.PostsModel">
+    <select id="findAllPostsByNameLike" resultType="com.hopoong.board.api.post.model.PostsModel">
         select * from posts
+             where 1=1
+             and name like 'name%'
+             limit 10000
     </select>
-
-
-
 
 
 </mapper>

@@ -1,0 +1,13 @@
+CREATE TABLE `posts` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `isAdmin` tinyint(1) DEFAULT 0,
+  `contents` text DEFAULT NULL,
+  `createTime` datetime DEFAULT NULL,
+  `views` int(11) DEFAULT 0,
+  `categoryId` int(11) DEFAULT NULL,
+  `userId` int(11) DEFAULT NULL,
+  `fileId` int(11) DEFAULT NULL,
+  `updateTime` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

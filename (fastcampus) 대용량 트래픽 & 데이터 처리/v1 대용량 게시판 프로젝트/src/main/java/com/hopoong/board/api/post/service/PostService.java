@@ -15,9 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PostService {
 
-
     private final PostMapper postMapper;
-
 
     // 20만건
     @Transactional
@@ -27,22 +25,22 @@ public class PostService {
 
         for(int i=0; i<200000; i++) {
             PostsModel postsModel = PostsModel.builder()
-                    .name("name " + i).contents("name " + i).build();
+                    .name("name " + i).contents("contents " + i).build();
             list.add(postsModel);
         }
 
         postMapper.insertPostsBatch(list);
     }
 
-
     // 20만건 조회
     public List<PostsModel> noCachePostsSearch() {
-        return postMapper.findAllByNoCache();
+        return postMapper.findAllPostsByNameLike();
     }
 
+    // 20만건 조회
     @Cacheable(value = "getPostsCache", key = "'allPosts'")
     public List<PostsModel> cachePostsSearch() {
-        return postMapper.findAllByNoCache();
+        return postMapper.findAllPostsByNameLike();
     }
 
 }

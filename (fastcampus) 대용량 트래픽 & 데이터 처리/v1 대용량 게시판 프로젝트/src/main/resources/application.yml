@@ -24,4 +24,4 @@ spring:
       repositories:
         enabled: false
       expire:
-        defaultTime: 600 # 1분
+        defaultTime: 3600 # 1분

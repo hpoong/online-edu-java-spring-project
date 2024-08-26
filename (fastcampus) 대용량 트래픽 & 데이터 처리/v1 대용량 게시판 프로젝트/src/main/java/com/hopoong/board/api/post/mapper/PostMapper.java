@@ -10,5 +10,5 @@ public interface PostMapper {
 
     void insertPostsBatch(List<PostsModel> list);
 
-    List<PostsModel> findAllByNoCache();
+    List<PostsModel> findAllPostsByNameLike();
 }
