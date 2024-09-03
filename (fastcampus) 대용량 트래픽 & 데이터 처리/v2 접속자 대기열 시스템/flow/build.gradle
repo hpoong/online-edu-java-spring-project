@@ -20,7 +20,11 @@ repositories {
 dependencies {
 
 	// springframework
-	implementation 'org.springframework.boot:spring-boot-starter-web'		// web
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis-reactive'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
 
 	// lombok
@@ -30,6 +34,10 @@ dependencies {
 	// test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	testImplementation 'io.projectreactor:reactor-test'
+
+	// embedded-redis
+	testImplementation group: 'com.github.codemonstur', name: 'embedded-redis', version: '1.4.3'
 }
 
 tasks.named('test') {

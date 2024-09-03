@@ -1,10 +1,27 @@
 
 
 server:
-  port: 2343
+  port: 9100
 
 
 logging:
   config: classpath:logback/logback-srping.xml
   level:
     root: info
+
+
+spring:
+  data:
+    redis:
+      port: 6379
+      host: localhost
+
+---
+spring:
+  config:
+    activate:
+      on-profile: test
+  data:
+    redis:
+      port: 63790
+      host: localhost

@@ -1,10 +1,10 @@
-package com.hopoong.connection_queue_management;
+package com.hopoong.flow;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ConnectionQueueManagementApplicationTests {
+class FlowApplicationTests {
 
 	@Test
 	void contextLoads() {
