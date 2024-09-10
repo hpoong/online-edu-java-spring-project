@@ -1,5 +1,7 @@
 package com.hopoong.couponcore.model;
 
+import com.hopoong.couponcore.exception.CouponIssueException;
+import com.hopoong.couponcore.exception.ErrorCode;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -84,13 +86,61 @@ class CouponTest {
     @DisplayName("발급 기간 종료 되면 false 반환")
     void availableIssueDate_3() {
         Coupon coupon = Coupon.builder()
-                .dateIssueStart(LocalDateTime.now().minusDays(2)) // -2일
-                .dateIssueEnd(LocalDateTime.now().minusDays(1)) // -1일
+                .dateIssueStart(LocalDateTime.now().minusDays(2))   // -2일
+                .dateIssueEnd(LocalDateTime.now().minusDays(1))     // -1일
                 .build();
 
         boolean result = coupon.availableIssueDate();
         Assertions.assertFalse(result);
     }
+
+    @Test
+    @DisplayName("발급 수량과 발급 기간이 유효 하면 쿠폰 발급 처리")
+    void issue_1() {
+        Coupon coupon = Coupon.builder()
+                .totalQuantity(100)
+                .issuedQuantity(99)
+                .dateIssueStart(LocalDateTime.now().plusDays(-1))   // -1일
+                .dateIssueEnd(LocalDateTime.now().plusDays(2))      // 2일
+                .build();
+
+        coupon.issue();
+
+        Assertions.assertEquals(coupon.getIssuedQuantity(), 100);
+    }
+
+
+    @Test
+    @DisplayName("발급 수량을 초과 하면 예외를 반환")
+    void issue_2() {
+        Coupon coupon = Coupon.builder()
+                .totalQuantity(100)
+                .issuedQuantity(100)
+                .dateIssueStart(LocalDateTime.now().plusDays(-1))   // -1일
+                .dateIssueEnd(LocalDateTime.now().plusDays(2))      // 2일
+                .build();
+
+        CouponIssueException exception = Assertions.assertThrows(CouponIssueException.class, coupon::issue);
+        Assertions.assertEquals(exception.getErrorCode(), ErrorCode.INVALID_COUPON_ISSUE_QUANTITY);
+    }
+
+    @Test
+    @DisplayName("발급 기간이 아니면 예외를 반환")
+    void issue_3() {
+        Coupon coupon = Coupon.builder()
+                .totalQuantity(100)
+                .issuedQuantity(99)
+                .dateIssueStart(LocalDateTime.now().plusDays(1))   // 1일
+                .dateIssueEnd(LocalDateTime.now().plusDays(2))      // 2일
+                .build();
+
+        CouponIssueException exception = Assertions.assertThrows(CouponIssueException.class, coupon::issue);
+        Assertions.assertEquals(exception.getErrorCode(), ErrorCode.INVALID_COUPON_ISSUE_DATE);
+    }
+
+
+
+    
 
 
 }
