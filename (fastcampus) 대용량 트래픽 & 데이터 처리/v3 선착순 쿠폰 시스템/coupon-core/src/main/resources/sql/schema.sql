@@ -1,5 +1,3 @@
-
--- 쿠폰 정보
 CREATE TABLE `coupon`.`coupons`
 (
     `id`                   BIGINT(20) NOT NULL AUTO_INCREMENT,
@@ -18,11 +16,6 @@ CREATE TABLE `coupon`.`coupons`
   DEFAULT CHARSET = utf8mb4
     COMMENT '쿠폰 정책';
 
-
-
-
-
--- 쿠폰 발급이력
 CREATE TABLE `coupon`.`coupon_issues`
 (
     `id`           BIGINT(20) NOT NULL AUTO_INCREMENT,

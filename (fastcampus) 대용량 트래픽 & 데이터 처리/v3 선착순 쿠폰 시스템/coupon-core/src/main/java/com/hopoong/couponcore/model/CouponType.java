@@ -2,5 +2,5 @@ package com.hopoong.couponcore.model;
 
 public enum CouponType {
 
-    FIRST_COME_FIRST_SERVED // 선택순 쿠폰
+    FIRST_COME_FIRST_SERVED // 선착순 쿠폰
 }
