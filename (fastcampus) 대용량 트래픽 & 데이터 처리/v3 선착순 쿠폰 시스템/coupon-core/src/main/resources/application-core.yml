@@ -1,19 +1,48 @@
 
 spring:
-  application:
-    name: coupon-core
   config:
     activate:
       on-profile: local
+#  datasource:
+#      hikari:
+#        jdbc-url: jdbc:mysql://${db_address}:${db_prot}/${db_name}
+#        driver-class-name: com.mysql.cj.jdbc.Driver
+#        username: ${db_username}
+#        password: ${db_password}
+#    jpa:
+#      hibernate:
+#        ddl-auto: none
   datasource:
-    hikari:
-      jdbc-url: jdbc:mysql://${db_address}:${db_prot}/${db_name}
-      driver-class-name: com.mysql.cj.jdbc.Driver
-      username: ${db_username}
-      password: ${db_password}
+    url: jdbc:h2:mem:test;MODE=MySQL;DATABASE_TO_LOWER=TRUE;INIT=CREATE SCHEMA IF NOT EXISTS coupon;
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  data:
+    redis:
+      host: ${redis_host}
+      port: ${redis_port}
+
+
+---
+spring:
+  config:
+    activate:
+      on-profile: test
+  datasource:
+    url: jdbc:h2:mem:test;MODE=MySQL;DATABASE_TO_LOWER=TRUE;INIT=CREATE SCHEMA IF NOT EXISTS coupon;
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: update
     show-sql: true
     properties:
       hibernate:
