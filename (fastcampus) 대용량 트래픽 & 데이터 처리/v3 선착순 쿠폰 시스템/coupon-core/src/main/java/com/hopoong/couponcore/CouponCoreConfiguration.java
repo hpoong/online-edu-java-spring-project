@@ -12,7 +12,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @EnableJpaAuditing // CreatedDate LastModifiedDate
 @ComponentScan
 @EnableAutoConfiguration
-//@PropertySource("file:./pwd.ini")
 public class CouponCoreConfiguration {
 
     private final Environment environment;
