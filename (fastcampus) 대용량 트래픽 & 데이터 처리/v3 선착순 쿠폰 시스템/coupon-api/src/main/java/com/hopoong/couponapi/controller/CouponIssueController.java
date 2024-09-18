@@ -18,9 +18,32 @@ public class CouponIssueController {
     private final CouponIssueRequestService couponIssueRequestService;
 
 
+    /*
+     * synchronized 활용 처리
+     */
     @PostMapping("/v1/issue")
     public CouponIssueResponseDto issuev1(@RequestBody CouponIssueRequestDto couponIssueRequestDto) {
         couponIssueRequestService.issueRequestV1(couponIssueRequestDto);
+        return new CouponIssueResponseDto(true, null);
+    }
+
+
+    /*
+     * redis lock 활용 처리
+     */
+    @PostMapping("/v2/issue")
+    public CouponIssueResponseDto issuev2(@RequestBody CouponIssueRequestDto couponIssueRequestDto) {
+        couponIssueRequestService.issueRequestV2(couponIssueRequestDto);
+        return new CouponIssueResponseDto(true, null);
+    }
+
+
+    /*
+     * db lock 활용 처리
+     */
+    @PostMapping("/v3/issue")
+    public CouponIssueResponseDto issuev3(@RequestBody CouponIssueRequestDto couponIssueRequestDto) {
+        couponIssueRequestService.issueRequestV3(couponIssueRequestDto);
         return new CouponIssueResponseDto(true, null);
     }
 

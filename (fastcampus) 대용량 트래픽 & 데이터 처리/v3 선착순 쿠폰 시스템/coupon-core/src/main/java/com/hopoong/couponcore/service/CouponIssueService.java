@@ -32,11 +32,35 @@ public class CouponIssueService {
 
 
     /*
+     * 쿠폰 발급
+     * DB Lock 적용
+     */
+    @Transactional
+    public void issuev3(long couponId, long userId) {
+        Coupon coupon = this.findCouponWithLock(couponId); // 쿠폰 확인
+        coupon.issue(); // 검증 및 쿠폰 발급
+        saveCouponIssue(couponId, userId);// 쿠폰 발급이력 저장
+    }
+
+
+    /*
      * 쿠폰 조회
      */
     @Transactional(readOnly = true)
     public Coupon findCoupon(long couponId) {
         return couponJpaRepository.findById(couponId).orElseThrow(() -> {
+            throw new CouponIssueException(ErrorCode.COUPON_NOT_EXIST, "쿠폰 정책이 존재하지 않습니다. %s".formatted(couponId));
+        });
+    }
+
+
+    /*
+     * 쿠폰 조회
+     * DB Lock
+     */
+    @Transactional
+    public Coupon findCouponWithLock(long couponId) {
+        return couponJpaRepository.findCouponWithLock(couponId).orElseThrow(() -> {
             throw new CouponIssueException(ErrorCode.COUPON_NOT_EXIST, "쿠폰 정책이 존재하지 않습니다. %s".formatted(couponId));
         });
     }
