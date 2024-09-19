@@ -3,6 +3,7 @@ package com.hopoong.couponapi.service;
 
 import com.hopoong.couponapi.controller.dto.CouponIssueRequestDto;
 import com.hopoong.couponcore.component.RedisLockExecutor;
+import com.hopoong.couponcore.service.AsyncCouponIssueServiceV1;
 import com.hopoong.couponcore.service.CouponIssueService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +16,7 @@ public class CouponIssueRequestService {
 
     private final CouponIssueService couponIssueService;
     private final RedisLockExecutor redisLockExecutor;
+    private final AsyncCouponIssueServiceV1 asyncCouponIssueServiceV1;
 
     /*
      * synchronized 활용 처리
@@ -48,5 +50,8 @@ public class CouponIssueRequestService {
     }
 
 
+    public void asyncIssueRequestV1(CouponIssueRequestDto requestDto) {
+        asyncCouponIssueServiceV1.issue(requestDto.couponId(), requestDto.userId());
+    }
 
 }
