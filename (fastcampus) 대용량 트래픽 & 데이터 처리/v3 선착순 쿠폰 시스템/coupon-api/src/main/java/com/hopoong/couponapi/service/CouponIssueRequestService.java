@@ -1,6 +1,7 @@
 package com.hopoong.couponapi.service;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.hopoong.couponapi.controller.dto.CouponIssueRequestDto;
 import com.hopoong.couponcore.component.RedisLockExecutor;
 import com.hopoong.couponcore.service.AsyncCouponIssueServiceV1;
@@ -50,7 +51,7 @@ public class CouponIssueRequestService {
     }
 
 
-    public void asyncIssueRequestV1(CouponIssueRequestDto requestDto) {
+    public void asyncIssueRequestV1(CouponIssueRequestDto requestDto) throws JsonProcessingException {
         asyncCouponIssueServiceV1.issue(requestDto.couponId(), requestDto.userId());
     }
 
