@@ -51,7 +51,7 @@ public class CouponIssueRequestService {
     }
 
 
-    public void asyncIssueRequestV1(CouponIssueRequestDto requestDto) throws JsonProcessingException {
+    public void asyncIssueRequestV1(CouponIssueRequestDto requestDto) {
         asyncCouponIssueServiceV1.issue(requestDto.couponId(), requestDto.userId());
     }
 
