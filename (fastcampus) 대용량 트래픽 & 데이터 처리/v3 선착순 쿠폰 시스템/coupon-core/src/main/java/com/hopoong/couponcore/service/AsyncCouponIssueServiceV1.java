@@ -46,10 +46,10 @@ public class AsyncCouponIssueServiceV1 {
             CouponIssueRequest issueRequest = new CouponIssueRequest(couponId, userId);
             String value = objectMapper.writeValueAsString(issueRequest);
 
-            // 쿠폰 발급 수량 & 쿠폰 중복 관리 Queue - set
+            // 쿠폰 발급 수량 & 쿠폰 중복 관리 Set
             redisRepository.sAdd(CouponRedisUtils.getIssueRequestKey(couponId), String.valueOf(userId));
 
-            // 쿠폰 발급 관리 Queue - list
+            // 쿠폰 발급 관리 Queue
             redisRepository.rPush(CouponRedisUtils.getIssueRequestQueueKey(), value);
         } catch (JsonProcessingException e) {
             e.printStackTrace();

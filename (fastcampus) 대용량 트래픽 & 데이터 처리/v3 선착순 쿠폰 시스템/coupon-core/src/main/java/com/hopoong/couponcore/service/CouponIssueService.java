@@ -22,6 +22,7 @@ public class CouponIssueService {
 
     /*
      * 쿠폰 발급
+     * Lock 적용 x
      */
     @Transactional
     public void issue(long couponId, long userId) {

@@ -4,7 +4,7 @@ public class CouponRedisUtils {
 
 
     /*
-     * 발급 수량 관리 Queue
+     * 발급 수량 관리 Set
      */
     public static String getIssueRequestKey(long couponId) {
         return "issue:request:couponId=%s".formatted(couponId);

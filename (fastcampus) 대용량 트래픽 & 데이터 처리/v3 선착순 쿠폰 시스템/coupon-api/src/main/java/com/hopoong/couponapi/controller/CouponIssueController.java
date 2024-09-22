@@ -48,11 +48,21 @@ public class CouponIssueController {
     }
 
     /*
-     *
+     * redis 를 통한 모든 처리 변경 - redis lock 활용
      */
     @PostMapping("/v1/issue-async")
     public CouponIssueResponseDto asyncIssuev1(@RequestBody CouponIssueRequestDto couponIssueRequestDto) {
         couponIssueRequestService.asyncIssueRequestV1(couponIssueRequestDto);
+        return new CouponIssueResponseDto(true, null);
+    }
+
+
+    /*
+     * redis 를 통한 모든 처리 변경 - redis script 활용
+     */
+    @PostMapping("/v2/issue-async")
+    public CouponIssueResponseDto asyncIssuev2(@RequestBody CouponIssueRequestDto couponIssueRequestDto) {
+        couponIssueRequestService.asyncIssueRequestV2(couponIssueRequestDto);
         return new CouponIssueResponseDto(true, null);
     }
 
