@@ -3,12 +3,16 @@ package com.hopoong.couponcore;
 
 import jakarta.annotation.PostConstruct;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 
+
+
+@EnableCaching
 @EnableJpaAuditing // CreatedDate LastModifiedDate
 @ComponentScan
 @EnableAutoConfiguration

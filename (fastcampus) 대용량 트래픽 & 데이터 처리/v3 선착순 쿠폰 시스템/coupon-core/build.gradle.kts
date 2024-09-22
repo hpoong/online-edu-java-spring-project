@@ -9,6 +9,10 @@ repositories {
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter")
 
+    // LocalDateTime 직렬화 / 역직렬화
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
+    implementation("com.fasterxml.jackson.core:jackson-databind")
+
     // redisson
     implementation("org.redisson:redisson-spring-boot-starter:3.16.4")
 
