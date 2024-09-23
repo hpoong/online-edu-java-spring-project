@@ -16,6 +16,9 @@ dependencies {
     // redisson
     implementation("org.redisson:redisson-spring-boot-starter:3.16.4")
 
+    // local cache
+    implementation("com.github.ben-manes.caffeine:caffeine")
+
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
