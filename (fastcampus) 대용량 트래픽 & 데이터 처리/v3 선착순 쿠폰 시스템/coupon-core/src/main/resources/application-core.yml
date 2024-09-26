@@ -5,7 +5,7 @@ spring:
       on-profile: local
   datasource:
       hikari:
-        jdbc-url: jdbc:mysql://localhost:3306/aa
+        jdbc-url: jdbc:mysql://localhost:3306/coupon
         driver-class-name: com.mysql.cj.jdbc.Driver
         username: root
         password: 1234
@@ -19,7 +19,7 @@ spring:
   data:
     redis:
       host: localhost
-      port: 6379
+      port: 6380
 
 
 ---
@@ -42,6 +42,25 @@ spring:
   data:
     redis:
       host: localhost
-      port: 6379
+      port: 6380
 
+---
+config:
+  activate:
+    on-profile: prod
+datasource:
+  hikari:
+    jdbc-url: jdbc:mysql://PROD_URL/coupon?useUnicode=yes&characterEncoding=UTF-8&rewriteBatchedStatements=true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    maximum-pool-size: 10
+    max-lifetime: 30000
+    connection-timeout: 3000
+    username: PROD_USER_NAME
+    password: PROD_PASSWORD
+jpa:
+  hibernate:
+    ddl-auto: none
+data:
+  redis:
+    host: PROD_URL
 
