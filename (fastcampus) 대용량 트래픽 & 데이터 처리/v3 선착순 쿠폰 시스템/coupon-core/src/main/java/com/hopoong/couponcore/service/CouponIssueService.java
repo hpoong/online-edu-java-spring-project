@@ -4,10 +4,12 @@ import com.hopoong.couponcore.exception.CouponIssueException;
 import com.hopoong.couponcore.exception.ErrorCode;
 import com.hopoong.couponcore.model.Coupon;
 import com.hopoong.couponcore.model.CouponIssue;
+import com.hopoong.couponcore.model.event.CouponIssueCompleteEvent;
 import com.hopoong.couponcore.repository.mysql.CouponIssueJpaRepository;
 import com.hopoong.couponcore.repository.mysql.CouponIssueRepository;
 import com.hopoong.couponcore.repository.mysql.CouponJpaRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +20,7 @@ public class CouponIssueService {
     private final CouponIssueJpaRepository couponIssueJpaRepository;
     private final CouponIssueRepository couponIssueRepository;
     private final CouponJpaRepository couponJpaRepository;
+    private final ApplicationEventPublisher applicationEventPublisher;
 
 
     /*
@@ -29,6 +32,13 @@ public class CouponIssueService {
         Coupon coupon = this.findCoupon(couponId); // 쿠폰 확인
         coupon.issue(); // 검증 및 쿠폰 발급
         saveCouponIssue(couponId, userId);// 쿠폰 발급이력 저장
+        publishCouponEvent(coupon);
+    }
+
+    private void publishCouponEvent(Coupon coupon) {
+        if(coupon.isIssueComplete()) { // 쿠폰 발급시
+            applicationEventPublisher.publishEvent(new CouponIssueCompleteEvent(coupon.getId()));
+        }
     }
 
 
