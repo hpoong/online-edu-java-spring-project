@@ -1,0 +1,23 @@
+services:
+  redis-slave2:
+    image: redis:7.2-alpine
+    container_name: redis-slave2
+    ports:
+      - "6381:6379"
+    command: ["redis-server", "--slaveof", "127.0.0.1", "6379", "--requirepass", "slavepassword"]
+    volumes:
+      - ./data:/data
+
+  sentinel2:
+    image: redis:7.2-alpine
+    container_name: redis-sentinel2
+    ports:
+      - "26381:26379"
+    command:
+      - redis-sentinel
+      - /etc/redis/sentinel.conf
+    volumes:
+      - ./sentinel.conf:/etc/redis/sentinel.conf
+
+volumes:
+  redis-slave2-data:
