@@ -4,20 +4,12 @@ services:
     container_name: redis-master
     ports:
       - "6379:6379"
-    command: ["redis-server", "--appendonly", "yes", "--slaveof", "no", "one"]
     volumes:
       - ./data:/data
+    command: ["redis-server", "--appendonly", "yes", "--replica-announce-ip", "192.168.0.138"]
+    networks:
+      - redis-network
 
-  sentinel1:
-    image: redis:7.2-alpine
-    container_name: redis-master-sentinel
-    ports:
-      - "26379:26379"
-    command:
-      - redis-sentinel
-      - /etc/redis/sentinel.conf
-    volumes:
-      - ./sentinel.conf:/etc/redis/sentinel.conf
-
-volumes:
-  redis-master-data:
+networks:
+  redis-network:
+    driver: bridge

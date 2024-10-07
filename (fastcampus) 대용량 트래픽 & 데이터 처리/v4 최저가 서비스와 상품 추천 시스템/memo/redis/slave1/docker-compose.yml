@@ -1,23 +1,17 @@
 services:
-  redis-slave1:
+  redis-slave:
     image: redis:7.2-alpine
-    container_name: redis-slave1
+    container_name: redis-slave
     ports:
-      - "6380:6379"
-    command: ["redis-server", "--slaveof", "192.168.219.104", "6379"]
+      - "6379:6379"
+    environment:
+      - REDIS_REPLICA_IP=192.168.0.138
     volumes:
       - ./data:/data
+    command: ["redis-server", "--replicaof", "192.168.0.138", "6379", "--replica-announce-ip", "192.168.0.20"]
+    networks:
+      - redis-network
 
-  sentinel1:
-    image: redis:7.2-alpine
-    container_name: redis-sentinel1
-    ports:
-      - "26380:26379"
-    command:
-      - redis-sentinel
-      - /etc/redis/sentinel.conf
-    volumes:
-      - ./sentinel.conf:/etc/redis/sentinel.conf
-
-volumes:
-  redis-slave1-data:
+networks:
+  redis-network:
+    driver: bridge
