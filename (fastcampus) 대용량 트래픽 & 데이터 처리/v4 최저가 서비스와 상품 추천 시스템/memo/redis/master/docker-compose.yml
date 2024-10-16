@@ -6,7 +6,7 @@ services:
       - "6379:6379"
     volumes:
       - ./data:/data
-    command: ["redis-server", "--appendonly", "yes", "--replica-announce-ip", "192.168.0.138"]
+    command: ["redis-server", "--appendonly", "yes""]
     networks:
       - redis-network
 
