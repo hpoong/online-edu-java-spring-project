@@ -1,6 +1,6 @@
 
 server:
-  port: 9000
+  port: 19000
 
 
 
@@ -8,3 +8,10 @@ logging:
   config: classpath:logback/logback-srping.xml
   level:
     root: info
+
+
+spring:
+  data:
+    redis:
+      port: 6379
+      host: localhost

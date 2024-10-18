@@ -38,3 +38,7 @@ logs/
 
 *.ini
 setup/
+
+
+### docker volume ###
+**/redis/data/
