@@ -4,11 +4,16 @@ import com.hopoong.project.api.product.service.LowestPriceService;
 import com.hopoong.project.api.product.vo.Keyword;
 import com.hopoong.project.api.product.vo.Product;
 import com.hopoong.project.api.product.vo.ProductGrp;
+import com.hopoong.project.exception.NotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @RestController
@@ -38,6 +43,24 @@ public class LowestPriceController {
 //            "price": 0
 //        }
     }
+
+
+    @Tag(name = "Exception API")
+    @Operation(summary = "Exception TEST", description = "Exception TEST")
+    @GetMapping("/product2")
+    public Set GetZsetValueUsingExController (String key) throws Exception {
+        return lowestPriceService.getZsetValueWithStatus(key);
+    }
+
+    @Tag(name = "Exception API")
+    @Operation(summary = "ExceptionAdvice Exception TEST", description = "ExceptionAdvice Exception TEST")
+    @GetMapping("/product3")
+    public ResponseEntity<Set> GetZsetValueUsingExControllerWithSpecificException (String key) throws Exception {
+        Set<String> mySet = lowestPriceService.getZsetValueWithSpecificException(key);
+        HttpHeaders responseHeaders = new HttpHeaders();
+        return new ResponseEntity<Set>(mySet, responseHeaders, HttpStatus.OK);
+    }
+
 
     @Tag(name = "Lowest Price API")
     @Operation(summary = "제품 그룹 등록", description = "제품 그룹을 한다.")

@@ -3,9 +3,11 @@ package com.hopoong.project.api.product.service;
 import com.hopoong.project.api.product.vo.Keyword;
 import com.hopoong.project.api.product.vo.Product;
 import com.hopoong.project.api.product.vo.ProductGrp;
+import com.hopoong.project.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -26,6 +28,25 @@ public class LowestPriceServiceImpl implements LowestPriceService {
         myTempSet = redisTemplate.opsForZSet().rangeWithScores(key, 0, 9);
         return myTempSet;
     }
+
+    public Set getZsetValueWithStatus(String key) throws Exception {
+        Set myTempSet = new HashSet();
+        myTempSet = redisTemplate.opsForZSet().rangeWithScores(key, 0, 9);
+        if (myTempSet.size() < 1 ) {
+            throw new Exception("The Key doesn't have any member");
+        }
+        return myTempSet;
+    };
+
+    public Set getZsetValueWithSpecificException(String key) throws Exception {
+        Set myTempSet = new HashSet();
+        myTempSet = redisTemplate.opsForZSet().rangeWithScores(key, 0, 9);
+        if (myTempSet.size() < 1 ) {
+            throw new NotFoundException("The Key doesn't exist in redis", HttpStatus.NOT_FOUND);
+        }
+        return myTempSet;
+    };
+
 
     /*
      * 상품 기반 상품 ID

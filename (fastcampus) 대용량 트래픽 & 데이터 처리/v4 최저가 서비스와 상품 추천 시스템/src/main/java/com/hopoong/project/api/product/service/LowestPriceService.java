@@ -17,4 +17,8 @@ public interface LowestPriceService {
     int setNewProductGrpToKeyword(String keyword, String prodGrpId, double score);
 
     Keyword getLowestPriceProductByKeyword(String keyword);
+
+    Set getZsetValueWithStatus(String key) throws Exception;
+
+    Set<String> getZsetValueWithSpecificException(String key) throws Exception;
 }
