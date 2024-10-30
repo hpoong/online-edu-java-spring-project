@@ -1,0 +1,9 @@
+
+server:
+  port: 19000
+
+
+logging:
+  config: classpath:logback/logback-srping.xml
+  level:
+    root: info
