@@ -10,11 +10,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class ConsumerService {
 
-    @KafkaListener(topics = "click-logs", groupId = "spring")
-    public void consumer (String message) {
-        System.out.println("Subscribed :  %s".formatted(message));
-    }
-
+//    @KafkaListener(topics = "click-logs", groupId = "spring")
+//    public void consumer (String message) {
+//        System.out.println("Subscribed :  %s".formatted(message));
+//    }
 
 
 }

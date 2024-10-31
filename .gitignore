@@ -42,4 +42,4 @@ setup/
 
 ### docker volume ###
 **/redis/data/
-**/kafka-logs/
+**/kafka-data/

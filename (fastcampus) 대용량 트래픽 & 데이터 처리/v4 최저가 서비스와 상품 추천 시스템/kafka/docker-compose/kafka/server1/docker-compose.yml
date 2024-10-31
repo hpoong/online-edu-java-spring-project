@@ -22,4 +22,4 @@ services:
     depends_on:
       - zookeeper
     volumes:
-      - ./kafka-logs:/var/lib/kafka/data
+      - ./kafka-data:/var/lib/kafka/data
