@@ -21,6 +21,7 @@ public class StreamService {
     @Autowired
     public void buildPipeline(StreamsBuilder sb) {
 
+        // KStream - 기본
         // kafka-console-consumer --bootstrap-server localhost:9092 --topic click-logs --from-beginning
         // kafka-console-consumer --bootstrap-server localhost:9092 --topic userClass --from-beginning
         // kafka-console-producer --broker-list localhost:9092 --topic click-logs
@@ -30,6 +31,7 @@ public class StreamService {
 
 
 
+        // KStream - innerjoin
         // kafka-console-consumer --bootstrap-server localhost:9092 --topic joinTopic --from-beginning
         // kafka-console-producer --broker-list localhost:9092 --topic leftTopic
         // kafka-console-producer --broker-list localhost:9092 --topic rightTopic
@@ -56,41 +58,36 @@ public class StreamService {
 //        joinStream.to("joinTopic");
 
 
-        KStream<String, String> leftStream = sb.stream(
-                        "leftTopic",
-                        Consumed.with(STRING_SERDE, STRING_SERDE));
-
-        KStream<String, String> rightStream = sb.stream(
-                        "rightTopic",
-                        Consumed.with(STRING_SERDE, STRING_SERDE));
-
-        leftStream.print(Printed.toSysOut());
-        rightStream.print(Printed.toSysOut());
 
 
-        ValueJoiner<String, String, String> stringValueJoiner = (left, right) -> {
-            return "[stringValueJoiner]" + left + "-" + right;
+        // KStream - outerjoin
+        // kafka-console-consumer --bootstrap-server localhost:9092 --topic joinedMsg --from-beginning
+        // kafka-console-producer --broker-list localhost:9092 --topic leftTopic --property "parse.key=true" --property "key.separator=:"
+        // kafka-console-producer --broker-list localhost:9092 --topic rightTopic --property "parse.key=true" --property "key.separator=:"
+        KStream<String, String> leftStream = sb.stream("leftTopic",
+                Consumed.with(STRING_SERDE, STRING_SERDE));
+        KStream<String, String> rightStream = sb.stream("rightTopic",
+                Consumed.with(STRING_SERDE, STRING_SERDE));
+
+        ValueJoiner<String, String, String> stringJoiner = (leftValue, rightValue) -> {
+            return "[StringJoiner]" + leftValue + "-" + rightValue;
         };
 
-        ValueJoiner<String, String, String> stringOuterValueJoiner = (left, right) -> {
-            return "[stringOuterValueJoiner]" + left + "<" + right;
+        ValueJoiner<String, String, String> stringOuterJoiner = (leftValue, rightValue) -> {
+            return "[StringOuterJoiner]" + leftValue + "<" + rightValue;
         };
 
-        KStream<String, String> joinStream = leftStream.join(
-                rightStream,
-                stringValueJoiner,
-                JoinWindows.ofTimeDifferenceWithNoGrace(Duration.ofMinutes(1))
-        );
+        KStream<String, String> joinedStream = leftStream.join(rightStream,
+                stringJoiner,
+                JoinWindows.ofTimeDifferenceWithNoGrace(Duration.ofMinutes(10)));
 
-        KStream<String, String> outerJoinStream = leftStream.outerJoin(
-                rightStream,
-                stringOuterValueJoiner,
-                JoinWindows.ofTimeDifferenceWithNoGrace(Duration.ofMinutes(1))
-        );
+        KStream<String, String> outerJoinedStream = leftStream.outerJoin(rightStream,
+                stringOuterJoiner,
+                JoinWindows.ofTimeDifferenceWithNoGrace(Duration.ofMinutes(10)));
 
-//        joinStream.print(Printed.toSysOut());
-        joinStream.to("joinTopic");
-        outerJoinStream.to("outerJoinTopic");
+        joinedStream.print(Printed.toSysOut());
+        joinedStream.to("joinedMsg");
+        outerJoinedStream.to("joinedMsg");
     }
 
 
