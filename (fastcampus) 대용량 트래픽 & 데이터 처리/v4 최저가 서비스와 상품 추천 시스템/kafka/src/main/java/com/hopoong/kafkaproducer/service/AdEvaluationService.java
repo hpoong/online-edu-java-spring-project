@@ -53,7 +53,7 @@ public class AdEvaluationService {
                         .withValueSerde(watchingAdLogSerde)
                 );
 
-        // Stream
+        // KTable
         KStream<String, PurchaseLog> purchaseLogKStream = sb.stream("purchaseLog", Consumed.with(Serdes.String(), purchaseLogSerde));
         purchaseLogKStream.filter((key, value) -> value.getPrice() < 1000000L);
 
@@ -90,6 +90,32 @@ public class AdEvaluationService {
 
         adTable.join(purchaseLogOneProductKTable,tableStreamJoiner)
                 .toStream().to("AdEvaluationComplete", Produced.with(Serdes.String(), effectOrNotSerde));
+
+
+        /*
+
+             1. **입력 토픽**:
+                - **`adLog`**: `WatchingAdLog` 데이터를 저장하고, 이 데이터를 `KTable`로 변환해 `adTable`로 사용합니다.
+                - **`purchaseLog`**: `PurchaseLog` 데이터를 저장하고, 이 데이터를 `KStream`으로 가져와 가격이 100만 원 이하인 경우 `foreach`에서 `purchaseLogOneProductModel`로 변환하여 `oneProduct` 토픽으로 전송합니다.
+                - **`purchaseLogOneProduct`**: `PurchaseLogOneProduct` 데이터를 저장하는 토픽으로, `KTable`로 변환해 `purchaseLogOneProductKTable`로 사용됩니다.
+            2. **출력 토픽**:
+                - **`oneProduct`**: `purchaseLogKStream`의 `PurchaseLog` 데이터를 특정 조건에 맞게 변환하여 이 토픽으로 보냅니다.
+                - **`AdEvaluationComplete`**: `adTable`과 `purchaseLogOneProductKTable`을 조인하여 생성된 `EffectOrNot` 데이터를 저장하는 최종 결과 토픽입니다.
+
+            ### 토픽 정리
+
+            - **입력 토픽**: `adLog`, `purchaseLog`, `purchaseLogOneProduct`
+            - **출력 토픽**: `oneProduct`, `AdEvaluationComplete`
+
+            각 토픽의 역할:
+
+            - `adLog`: 광고 로그 데이터를 수신.
+            - `purchaseLog`: 구매 로그 데이터를 수신.
+            - `purchaseLogOneProduct`: 구매 로그에서 개별 제품 정보를 변환하여 수신.
+            - `oneProduct`: `purchaseLog`의 필터링된 데이터를 `PurchaseLogOneProduct`로 변환하여 송신.
+            - `AdEvaluationComplete`: `WatchingAdLog`와 `PurchaseLogOneProduct`를 조인하여 광고 평가 결과를 송신.
+
+         */
 
     }
 
