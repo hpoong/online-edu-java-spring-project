@@ -22,4 +22,10 @@ public class ProducerService {
         kafkaTemplate.send(topicName, msg);
     }
 
+    public void sendJoineMsg(String topicNm, Object msg) {
+        kafkaTemplate.send(topicNm, msg);
+    }
+
+
+
 }
