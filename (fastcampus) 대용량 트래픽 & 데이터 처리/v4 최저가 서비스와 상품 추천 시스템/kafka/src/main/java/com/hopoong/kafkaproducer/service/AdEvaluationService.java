@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.apache.kafka.common.serialization.Serde;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.common.utils.Bytes;
+import org.apache.kafka.streams.KeyValue;
 import org.apache.kafka.streams.kstream.*;
 import org.apache.kafka.streams.state.KeyValueStore;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
@@ -15,6 +16,8 @@ import com.hopoong.kafkaproducer.model.EffectOrNot;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Collections;
 
 @Service
 @RequiredArgsConstructor
@@ -25,6 +28,10 @@ public class AdEvaluationService {
     private final ProducerService producerService;
 
 
+    // kafka-console-consumer --bootstrap-server localhost:9092 --topic AdEvaluationComplete --from-beginning
+    // kafka-console-consumer --bootstrap-server localhost:9092 --topic purchaseLogOneProduct --from-beginning
+    // kafka-console-producer --broker-list localhost:9092 --topic adLog
+    // kafka-console-producer --broker-list localhost:9092 --topic purchaseLog
     @Autowired
     public void buildPipeline(StreamsBuilder sb) {
         JsonSerializer<EffectOrNot> effectSerializer = new JsonSerializer<>();
@@ -34,6 +41,10 @@ public class AdEvaluationService {
 
         JsonDeserializer<EffectOrNot> effectDeserializer = new JsonDeserializer<>(EffectOrNot.class);
         JsonDeserializer<PurchaseLog> purchaseLogDeserializer = new JsonDeserializer<>(PurchaseLog.class);
+//        JsonDeserializer<PurchaseLog> purchaseLogDeserializer = new JsonDeserializer<>(PurchaseLog.class);
+//        purchaseLogDeserializer.ignoreTypeHeaders(); // 타입 정보를 무시하도록 설정
+//        purchaseLogDeserializer.configure(Collections.singletonMap("spring.json.trusted.packages", "*"), false);
+
         JsonDeserializer<WatchingAdLog> watchingAdLogDeserializer = new JsonDeserializer<>(WatchingAdLog.class);
         JsonDeserializer<PurchaseLogOneProduct> purchaseLogOneProductDeserializer = new JsonDeserializer<>(PurchaseLogOneProduct.class);
 
@@ -55,7 +66,8 @@ public class AdEvaluationService {
 
         // KTable
         KStream<String, PurchaseLog> purchaseLogKStream = sb.stream("purchaseLog", Consumed.with(Serdes.String(), purchaseLogSerde));
-        purchaseLogKStream.filter((key, value) -> value.getPrice() < 1000000L);
+        purchaseLogKStream.peek((k, v) -> System.out.println("Received data: " + v));
+//        purchaseLogKStream.filter((key, value) -> value.getPrice() < 1000000L);
 
         purchaseLogKStream.foreach((k, v) -> {
             for(String prodId : v.getProductId()) {
@@ -66,14 +78,19 @@ public class AdEvaluationService {
                     purchaseLogOneProductModel.setOrderId(v.getOrderId());
                     purchaseLogOneProductModel.setPrice(v.getPrice());
 
-                    producerService.sendJoineMsg("oneProduct", purchaseLogOneProductModel);
+                    System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>> ????");
+                    System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>> ????");
+                    System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>> ????");
+                    System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>> ????");
+                    producerService.sendJoineMsg("purchaseLogOneProduct", purchaseLogOneProductModel);
                 }
             }
         });
 
         // KTable
         KTable<String, PurchaseLogOneProduct> purchaseLogOneProductKTable = sb.stream("purchaseLogOneProduct", Consumed.with(Serdes.String(), purchaseLogOneProductSerde))
-                .selectKey((k, v) -> v.getUserId() + "_" + v.getProductId())
+//                .selectKey((k, v) -> v.getUserId() + "_" + v.getProductId())
+                .map((k, v) -> new KeyValue<>(v.getUserId() + "_" + v.getProductId(), v))
                 .toTable(Materialized.<String, PurchaseLogOneProduct, KeyValueStore<Bytes, byte[]>>as("purchaseLogStore")
                         .withKeySerde(Serdes.String())
                         .withValueSerde(purchaseLogOneProductSerde)
@@ -96,7 +113,7 @@ public class AdEvaluationService {
 
              1. **입력 토픽**:
                 - **`adLog`**: `WatchingAdLog` 데이터를 저장하고, 이 데이터를 `KTable`로 변환해 `adTable`로 사용합니다.
-                - **`purchaseLog`**: `PurchaseLog` 데이터를 저장하고, 이 데이터를 `KStream`으로 가져와 가격이 100만 원 이하인 경우 `foreach`에서 `purchaseLogOneProductModel`로 변환하여 `oneProduct` 토픽으로 전송합니다.
+                - **`purchaseLog`**: `PurchaseLog` 데이터를 저장하고, 이 데이터를 `KStream`으로 가져와 가격이 100만원 이하인 경우 `foreach`에서 `purchaseLogOneProductModel`로 변환하여 `oneProduct` 토픽으로 전송합니다.
                 - **`purchaseLogOneProduct`**: `PurchaseLogOneProduct` 데이터를 저장하는 토픽으로, `KTable`로 변환해 `purchaseLogOneProductKTable`로 사용됩니다.
             2. **출력 토픽**:
                 - **`oneProduct`**: `purchaseLogKStream`의 `PurchaseLog` 데이터를 특정 조건에 맞게 변환하여 이 토픽으로 보냅니다.
