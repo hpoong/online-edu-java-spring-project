@@ -63,32 +63,32 @@ public class StreamService {
         // kafka-console-consumer --bootstrap-server localhost:9092 --topic joinedMsg --from-beginning
         // kafka-console-producer --broker-list localhost:9092 --topic leftTopic --property "parse.key=true" --property "key.separator=:"
         // kafka-console-producer --broker-list localhost:9092 --topic rightTopic --property "parse.key=true" --property "key.separator=:"
-//        KStream<String, String> leftStream = sb.stream("leftTopic",
-//                Consumed.with(STRING_SERDE, STRING_SERDE));
-//        KStream<String, String> rightStream = sb.stream("rightTopic",
-//                Consumed.with(STRING_SERDE, STRING_SERDE));
-//
-//        ValueJoiner<String, String, String> stringJoiner = (leftValue, rightValue) -> {
-//            return "[StringJoiner]" + leftValue + "-" + rightValue;
-//        };
-//
-//        ValueJoiner<String, String, String> stringOuterJoiner = (leftValue, rightValue) -> {
-//            return "[StringOuterJoiner]" + leftValue + "<" + rightValue;
-//        };
-//
-//        KStream<String, String> joinedStream = leftStream.join(rightStream,
-//                stringJoiner,
-//                JoinWindows.ofTimeDifferenceWithNoGrace(Duration.ofSeconds(5)));
-//
-//        KStream<String, String> outerJoinedStream = leftStream.outerJoin(rightStream,
-//                stringOuterJoiner,
-//                JoinWindows.ofTimeDifferenceWithNoGrace(Duration.ofSeconds(5)));
-//
-//
-//        joinedStream.print(Printed.toSysOut());
-//        outerJoinedStream.print(Printed.toSysOut());
-//        joinedStream.to("joinedMsg");
-//        outerJoinedStream.to("joinedMsg");
+        KStream<String, String> leftStream = sb.stream("leftTopic",
+                Consumed.with(STRING_SERDE, STRING_SERDE));
+        KStream<String, String> rightStream = sb.stream("rightTopic",
+                Consumed.with(STRING_SERDE, STRING_SERDE));
+
+        ValueJoiner<String, String, String> stringJoiner = (leftValue, rightValue) -> {
+            return "[StringJoiner]" + leftValue + "-" + rightValue;
+        };
+
+        ValueJoiner<String, String, String> stringOuterJoiner = (leftValue, rightValue) -> {
+            return "[StringOuterJoiner]" + leftValue + "<" + rightValue;
+        };
+
+        KStream<String, String> joinedStream = leftStream.join(rightStream,
+                stringJoiner,
+                JoinWindows.ofTimeDifferenceWithNoGrace(Duration.ofSeconds(5)));
+
+        KStream<String, String> outerJoinedStream = leftStream.outerJoin(rightStream,
+                stringOuterJoiner,
+                JoinWindows.ofTimeDifferenceWithNoGrace(Duration.ofSeconds(5)));
+
+
+        joinedStream.print(Printed.toSysOut());
+        outerJoinedStream.print(Printed.toSysOut());
+        joinedStream.to("joinedMsg");
+        outerJoinedStream.to("joinedMsg");
     }
 
 
