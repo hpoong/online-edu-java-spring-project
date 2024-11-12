@@ -9,12 +9,10 @@ import java.util.Map;
 @Data
 public class PurchaseLog { // 구매한 이력
 
-//    {"orderId":"orderId_002","userId":"userId_002","productId":["productId_003","productId_004"],"purchasedDt":"20241108","price":50000}
+//    {"orderId":"orderId_001","userId":"userId_001","productInfo":[{"price":"10000","productId":"productId_001"},{"price":"20000","productId":"productId_002"}],"purchasedDt":"20241112"}
 
     private String orderId;     // 주문 ID
     private String userId;      // 사용자 ID
-    private List<String> productId;   // 제품 ID
-//    private ArrayList<Map<String, String>> productInfo;  // 제품정보
+    private ArrayList<Map<String, String>> productInfo;  // 제품정보
     private String purchasedDt; // 구매 날짜
-    private Long price;
 }

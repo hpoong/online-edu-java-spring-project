@@ -9,5 +9,5 @@ public class PurchaseLogOneProduct {
     private String userId;
     private String productId;
     private String purchasedDt;
-    private Long price;
+    private String price;
 }

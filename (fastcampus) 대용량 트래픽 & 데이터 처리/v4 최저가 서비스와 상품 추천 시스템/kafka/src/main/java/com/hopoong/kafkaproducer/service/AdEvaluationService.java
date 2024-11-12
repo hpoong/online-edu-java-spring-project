@@ -31,10 +31,10 @@ public class AdEvaluationService {
     private final ProducerService producerService;
 
 
-    // kafka-console-consumer --bootstrap-server localhost:9092 --topic AdEvaluationComplete --from-beginning
-    // kafka-console-consumer --bootstrap-server localhost:9092 --topic purchaseLogOneProduct --from-beginning
     // kafka-console-producer --broker-list localhost:9092 --topic adLog
     // kafka-console-producer --broker-list localhost:9092 --topic purchaseLog
+    // kafka-console-consumer --bootstrap-server localhost:9092 --topic purchaseLogOneProduct --from-beginning
+    // kafka-console-consumer --bootstrap-server localhost:9092 --topic AdEvaluationComplete --from-beginning
     @Autowired
     public void buildPipeline(StreamsBuilder sb) {
         
@@ -71,13 +71,13 @@ public class AdEvaluationService {
            KStream<String, PurchaseLog> purchaseLogKStream = sb.stream("purchaseLog", Consumed.with(Serdes.String(), purchaseLogSerde));
            purchaseLogKStream.peek((k, v) -> System.out.println("purchaseLog Received data :::::: " + v));
            purchaseLogKStream.foreach((k, v) -> {
-               for(String prodId : v.getProductId()) {
-                   if(v.getPrice() < 1000000L) {
+               for(Map<String, String> productInfoMapData : v.getProductInfo()) {
+                   if(Integer.valueOf(productInfoMapData.get("price")) < 1000000L) {
                        PurchaseLogOneProduct purchaseLogOneProductModel = new PurchaseLogOneProduct();
                        purchaseLogOneProductModel.setUserId(v.getUserId());
-                       purchaseLogOneProductModel.setProductId(prodId);
+                       purchaseLogOneProductModel.setProductId(productInfoMapData.get("productId"));
                        purchaseLogOneProductModel.setOrderId(v.getOrderId());
-                       purchaseLogOneProductModel.setPrice(v.getPrice());
+                       purchaseLogOneProductModel.setPrice(productInfoMapData.get("price"));
                        producerService.sendJoineMsg("purchaseLogOneProduct", purchaseLogOneProductModel);
                    }
                }
@@ -99,6 +99,11 @@ public class AdEvaluationService {
                returnValue.setUserId(rightValue.getUserId());
                returnValue.setAdId(leftValue.getAdId());
                returnValue.setOrderId(rightValue.getOrderId());
+
+               Map<String, String> tmpMap = new HashMap<>();
+               tmpMap.put("price", rightValue.getPrice());
+               tmpMap.put("productId", rightValue.getProductId());
+               returnValue.setProductInfo(tmpMap);
                return returnValue;
            };
 
