@@ -18,9 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.nio.charset.StandardCharsets;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -33,6 +31,9 @@ public class AdEvaluationService {
 
     // kafka-console-producer --broker-list localhost:9092 --topic adLog
     // kafka-console-producer --broker-list localhost:9092 --topic purchaseLog
+    // kafka-console-consumer --bootstrap-server localhost:9092 --topic purchaseLogOneProduct
+    // kafka-console-consumer --bootstrap-server localhost:9092 --topic AdEvaluationComplete
+
     // kafka-console-consumer --bootstrap-server localhost:9092 --topic purchaseLogOneProduct --from-beginning
     // kafka-console-consumer --bootstrap-server localhost:9092 --topic AdEvaluationComplete --from-beginning
     @Autowired
@@ -79,6 +80,7 @@ public class AdEvaluationService {
                        purchaseLogOneProductModel.setOrderId(v.getOrderId());
                        purchaseLogOneProductModel.setPrice(productInfoMapData.get("price"));
                        producerService.sendJoineMsg("purchaseLogOneProduct", purchaseLogOneProductModel);
+//                       sendMesg();
                    }
                }
            });
@@ -127,5 +129,49 @@ public class AdEvaluationService {
        }
 
     }
+
+
+    public void sendMesg() {
+        PurchaseLog tempPurchaseLog  = new PurchaseLog();
+        WatchingAdLog tempWatchingAdLog = new WatchingAdLog();
+
+        Random rd = new Random();
+        int rdUidNumber = rd.nextInt(9999);
+        int rdOrderNumber = rd.nextInt(9999);
+        int rdProdIdNumber = rd.nextInt(9999);
+        int rdPriceIdNumber = rd.nextInt(90000)+10000;
+        int prodCnt = rd.nextInt(9)+1;
+        int watchingTime = rd.nextInt(55)+5;
+
+        // PurchaseLog
+        tempPurchaseLog.setUserId("uid-%05d".formatted(rdUidNumber));
+        tempPurchaseLog.setPurchasedDt("20230101070000");
+        tempPurchaseLog.setOrderId("od-%05d".formatted(rdOrderNumber));
+        ArrayList<Map<String, String>> tempProdInfo = new ArrayList<>();
+        Map<String, String> tempProd = new HashMap<>();
+        for (int i = 0; i < prodCnt; i++) {
+            tempProd.put("productId", "pg-%05d".formatted(rdProdIdNumber));
+            tempProd.put("price", "%05d".formatted(rdPriceIdNumber));
+            tempProdInfo.add(tempProd);
+        }
+        tempPurchaseLog.setProductInfo(tempProdInfo);
+
+
+        // WatchingAdLog
+        tempWatchingAdLog.setUserId("uid-%05d".formatted(rdUidNumber));
+        tempWatchingAdLog.setProductId("pg-%05d".formatted(rdProdIdNumber));
+        tempWatchingAdLog.setAdId("ad-%05d".formatted(rdUidNumber));
+        tempWatchingAdLog.setAdType("banner");
+        tempWatchingAdLog.setWatchingTime("%s".formatted(watchingTime));
+        tempWatchingAdLog.setWatchingDt("20230201070000");
+
+
+        // msg
+        producerService.sendMsgForWatchingAdLog("adLog", tempWatchingAdLog);
+        producerService.sendMsgForPurchaseLog("purchaseLog", tempPurchaseLog);
+    }
+
+
+
 
 }

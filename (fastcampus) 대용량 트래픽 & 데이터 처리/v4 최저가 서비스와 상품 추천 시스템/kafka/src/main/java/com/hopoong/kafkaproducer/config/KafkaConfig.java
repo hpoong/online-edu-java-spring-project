@@ -2,6 +2,8 @@ package com.hopoong.kafkaproducer.config;
 
 
 import com.hopoong.kafkaproducer.util.PurchaseLogOneProductSerializer;
+import com.hopoong.kafkaproducer.util.PurchaseLogSerializer;
+import com.hopoong.kafkaproducer.util.WatchingAdLogSerializer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.config.TopicConfig;
 import org.apache.kafka.common.serialization.Serdes;
@@ -39,6 +41,35 @@ public class KafkaConfig {
 //        kafkaStreamsConfig.put(StreamsConfig.topicPrefix(TopicConfig.MIN_IN_SYNC_REPLICAS_CONFIG), 2);
 //        kafkaStreamsConfig.put(StreamsConfig.NUM_STANDBY_REPLICAS_CONFIG, 1);
         return new KafkaStreamsConfiguration(kafkaStreamsConfig);
+    }
+
+
+    @Bean
+    public KafkaTemplate<String, Object> kafkaTemplateForPurchaseLog() {
+        return new KafkaTemplate<String, Object>(producerFactoryForPurchaseLog());
+    }
+    @Bean
+    public ProducerFactory<String, Object> producerFactoryForPurchaseLog() {
+        Map<String, Object> myConfig = new HashMap<>();
+        myConfig.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        myConfig.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        myConfig.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, PurchaseLogSerializer.class);
+        return new DefaultKafkaProducerFactory<>(myConfig);
+    }
+
+
+
+    @Bean
+    public KafkaTemplate<String, Object> kafkaTemplateForWatchingAdLog() {
+        return new KafkaTemplate<String, Object>(producerFactoryForWatchingAdLog());
+    }
+    @Bean
+    public ProducerFactory<String, Object> producerFactoryForWatchingAdLog() {
+        Map<String, Object> myConfig = new HashMap<>();
+        myConfig.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        myConfig.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        myConfig.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, WatchingAdLogSerializer.class);
+        return new DefaultKafkaProducerFactory<>(myConfig);
     }
 
 

@@ -1,12 +1,12 @@
 package com.hopoong.kafkaproducer.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hopoong.kafkaproducer.model.PurchaseLogOneProduct;
+import com.hopoong.kafkaproducer.model.WatchingAdLog;
 import org.apache.kafka.common.serialization.Serializer;
 
 import java.util.Map;
 
-public class PurchaseLogOneProductSerializer implements Serializer<PurchaseLogOneProduct> {
+public class WatchingAdLogSerializer implements Serializer<WatchingAdLog> {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
@@ -14,7 +14,7 @@ public class PurchaseLogOneProductSerializer implements Serializer<PurchaseLogOn
     }
 
     @Override
-    public byte[] serialize(String topic, PurchaseLogOneProduct data) {
+    public byte[] serialize(String topic, WatchingAdLog data) {
         try {
             if (data == null){
                 return null;
@@ -28,4 +28,5 @@ public class PurchaseLogOneProductSerializer implements Serializer<PurchaseLogOn
     @Override
     public void close() {
     }
+
 }
