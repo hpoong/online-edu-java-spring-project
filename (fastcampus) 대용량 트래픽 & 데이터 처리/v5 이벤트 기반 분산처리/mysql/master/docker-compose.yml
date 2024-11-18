@@ -12,9 +12,11 @@ services:
       MYSQL_REPLICATION_PASSWORD: replica_password
     ports:
       - "3307:3306"
+    command: --server-id=1
     volumes:
-      - ./mysql-data:/var/lib/mysql
-      - ./mysql-conf:/etc/mysql/conf.d
+      - ./data:/var/lib/mysql
+      - ./conf:/etc/mysql/conf.d
+      - ./back-up:/back-up
 networks:
   mysql-network:
     driver: bridge

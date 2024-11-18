@@ -43,3 +43,5 @@ setup/
 ### docker volume ###
 **/redis/data/
 **/kafka-data/
+**/master/data/
+**/master/back-up/
