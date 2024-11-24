@@ -22,6 +22,16 @@ dependencies {
 	// springframework
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 
+	// kafka
+	implementation 'org.springframework.kafka:spring-kafka'
+	implementation 'org.apache.kafka:kafka-streams'
+
+	// cassandra
+
+	// lombok
+	compileOnly 'org.projectlombok:lombok:1.18.32'
+	annotationProcessor 'org.projectlombok:lombok:1.18.32'
+
 
 	// test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'

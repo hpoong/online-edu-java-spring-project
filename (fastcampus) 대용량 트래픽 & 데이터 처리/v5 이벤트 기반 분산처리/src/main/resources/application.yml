@@ -8,3 +8,19 @@ logging:
   config: classpath:logback/logback-srping.xml
   level:
     root: info
+
+
+spring:
+  kafka:
+    bootstrap-servers:
+      - 127.0.0.1:9092
+    #      - 127.0.0.1:9093
+    #      - 127.0.0.1:9094
+    consumer:
+      group-id: testgroup
+      auto-offset-reset: earliest # 앞에 부터 읽기
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer

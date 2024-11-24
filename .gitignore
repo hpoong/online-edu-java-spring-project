@@ -45,3 +45,4 @@ setup/
 **/kafka-data/
 **/mysql/data/
 **/kafka/data/
+**/cassandra/data/

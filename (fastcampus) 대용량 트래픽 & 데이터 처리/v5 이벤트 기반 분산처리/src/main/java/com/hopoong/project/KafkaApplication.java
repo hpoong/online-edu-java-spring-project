@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ProjectApplication {
+public class KafkaApplication {
 
 	/*
 	 * e-commerce 시스템으로 다향의 데이터와 높은 동시 접속자 수 환경을 구성한다.
@@ -29,7 +29,7 @@ public class ProjectApplication {
 	 *  - member
 	 */
 	public static void main(String[] args) {
-		SpringApplication.run(ProjectApplication.class, args);
+		SpringApplication.run(KafkaApplication.class, args);
 	}
 
 }
