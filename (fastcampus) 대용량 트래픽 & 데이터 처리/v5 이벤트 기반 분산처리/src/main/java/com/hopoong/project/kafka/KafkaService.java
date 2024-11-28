@@ -1,4 +1,4 @@
-package com.hopoong.project;
+package com.hopoong.project.kafka;
 
 
 import lombok.RequiredArgsConstructor;
