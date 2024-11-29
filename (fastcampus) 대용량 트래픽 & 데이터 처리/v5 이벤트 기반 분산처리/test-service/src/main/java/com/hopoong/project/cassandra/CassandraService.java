@@ -23,7 +23,9 @@ public class CassandraService {
         employeeRepository.save(employee2);
 
         List<Employee> byKeyLocationAndKeyDepartment = employeeRepository.findByLocationAndDepartment("seoul", "business");
-        byKeyLocationAndKeyDepartment.stream().map(data -> data).forEach(System.out::println);
+        byKeyLocationAndKeyDepartment.forEach(data -> {
+            System.out.println("%s ::: %s".formatted(data.getPhoneNumber(), data.getEmployeePrimaryKey().getName()));
+        });
     }
 
 }
