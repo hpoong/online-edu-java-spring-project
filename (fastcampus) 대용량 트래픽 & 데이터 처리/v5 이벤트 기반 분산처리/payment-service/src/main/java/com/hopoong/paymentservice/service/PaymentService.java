@@ -1,7 +1,7 @@
 package com.hopoong.paymentservice.service;
 
 import com.hopoong.paymentservice.entity.PaymentEntity;
-import com.hopoong.paymentservice.entity.PaymentMethod;
+import com.hopoong.paymentservice.entity.PaymentMethodEntity;
 import com.hopoong.paymentservice.entity.entity.PaymentMethodType;
 import com.hopoong.paymentservice.entity.entity.PaymentStatus;
 import com.hopoong.paymentservice.pg.CreditCardPaymentAdapter;
@@ -22,8 +22,8 @@ public class PaymentService {
     private final CreditCardPaymentAdapter creditCardPaymentAdapter;
 
 
-    public PaymentMethod registerPaymentMethod(Long userId, PaymentMethodType paymentMethodType, String creditCardNumber){
-        var paymentMethod = new PaymentMethod(userId, paymentMethodType, creditCardNumber);
+    public PaymentMethodEntity registerPaymentMethod(Long userId, PaymentMethodType paymentMethodType, String creditCardNumber){
+        var paymentMethod = new PaymentMethodEntity(userId, paymentMethodType, creditCardNumber);
         return paymentMethodJpaRepository.save(paymentMethod);
     }
 
@@ -34,8 +34,8 @@ public class PaymentService {
             Long amountKRW,
             Long paymentMethodId
     ) {
-        PaymentMethod paymentMethodEntity = paymentMethodJpaRepository.findById(paymentMethodId)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        PaymentMethodEntity paymentMethodEntity = paymentMethodJpaRepository.findById(paymentMethodId)
+                .orElseThrow(() -> new IllegalArgumentException("paymentMethodId not found"));
 
         if(!paymentMethodEntity.getPaymentMethodType().equals(PaymentMethodType.CREDIT_CARD)) {
             throw new IllegalArgumentException("신용카드만 지원합니다.");
@@ -57,12 +57,16 @@ public class PaymentService {
     }
 
 
-    public PaymentMethod getPaymentMethodUser(Long userId) {
+    public PaymentMethodEntity getPaymentMethodUser(Long userId) {
         return paymentMethodJpaRepository.findById(userId).stream().findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+                .orElseThrow(() -> new IllegalArgumentException("userId not found"));
     }
 
 
+    public PaymentEntity getPayment(Long paymentId) {
+        return paymentJpaRepository.findById(paymentId)
+                .orElseThrow(() -> new IllegalArgumentException("paymentId not found"));
+    }
 
 
 }

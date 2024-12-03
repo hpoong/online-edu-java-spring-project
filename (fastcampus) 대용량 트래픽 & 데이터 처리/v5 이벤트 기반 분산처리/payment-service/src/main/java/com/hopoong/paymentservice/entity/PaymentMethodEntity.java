@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "payment_method", indexes = {@Index(name = "idx_userId", columnList = "userId")})
 @NoArgsConstructor
 @Data
-public class PaymentMethod {
+public class PaymentMethodEntity {
 
     // 결제 수단 Table
 
@@ -24,7 +24,7 @@ public class PaymentMethod {
     private String creditCardNumber;
 
 
-    public PaymentMethod(Long userId, PaymentMethodType paymentMethodType, String creditCardNumber) {
+    public PaymentMethodEntity(Long userId, PaymentMethodType paymentMethodType, String creditCardNumber) {
         this.userId = userId;
         this.paymentMethodType = paymentMethodType;
         this.creditCardNumber = creditCardNumber;
