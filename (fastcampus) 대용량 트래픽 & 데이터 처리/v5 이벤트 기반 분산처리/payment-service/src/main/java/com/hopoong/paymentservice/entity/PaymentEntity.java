@@ -1,7 +1,7 @@
 package com.hopoong.paymentservice.entity;
 
-import com.hopoong.paymentservice.entity.entity.PaymentMethodType;
-import com.hopoong.paymentservice.entity.entity.PaymentStatus;
+import com.hopoong.paymentservice.entity.entityEnum.PaymentMethodType;
+import com.hopoong.paymentservice.entity.entityEnum.PaymentStatus;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -2,8 +2,8 @@ package com.hopoong.paymentservice.service;
 
 import com.hopoong.paymentservice.entity.PaymentEntity;
 import com.hopoong.paymentservice.entity.PaymentMethodEntity;
-import com.hopoong.paymentservice.entity.entity.PaymentMethodType;
-import com.hopoong.paymentservice.entity.entity.PaymentStatus;
+import com.hopoong.paymentservice.entity.entityEnum.PaymentMethodType;
+import com.hopoong.paymentservice.entity.entityEnum.PaymentStatus;
 import com.hopoong.paymentservice.pg.CreditCardPaymentAdapter;
 import com.hopoong.paymentservice.repository.PaymentJpaRepository;
 import com.hopoong.paymentservice.repository.PaymentMethodJpaRepository;
@@ -13,21 +13,32 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-@RequiredArgsConstructor
 public class PaymentService {
 
     private final PaymentMethodJpaRepository paymentMethodJpaRepository;
     private final PaymentJpaRepository paymentJpaRepository;
-    @Qualifier("AcreditCardPaymentAdapter")
     private final CreditCardPaymentAdapter creditCardPaymentAdapter;
 
+    public PaymentService(
+            PaymentMethodJpaRepository paymentMethodJpaRepository,
+            PaymentJpaRepository paymentJpaRepository,
+            @Qualifier("acreditCardPaymentAdapter") CreditCardPaymentAdapter creditCardPaymentAdapter) {
+        this.paymentMethodJpaRepository = paymentMethodJpaRepository;
+        this.paymentJpaRepository = paymentJpaRepository;
+        this.creditCardPaymentAdapter = creditCardPaymentAdapter;
+    }
 
+    /*
+     * 결제 수단 등록
+     */
     public PaymentMethodEntity registerPaymentMethod(Long userId, PaymentMethodType paymentMethodType, String creditCardNumber){
         var paymentMethod = new PaymentMethodEntity(userId, paymentMethodType, creditCardNumber);
         return paymentMethodJpaRepository.save(paymentMethod);
     }
 
-
+    /*
+     * 결제
+     */
     public PaymentEntity processPayment(
             Long userId,
             Long orderId,
@@ -57,12 +68,18 @@ public class PaymentService {
     }
 
 
+    /*
+     * user 결제 수단 조회
+     */
     public PaymentMethodEntity getPaymentMethodUser(Long userId) {
         return paymentMethodJpaRepository.findById(userId).stream().findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("userId not found"));
     }
 
 
+    /*
+     * 결제 내역 조회
+     */
     public PaymentEntity getPayment(Long paymentId) {
         return paymentJpaRepository.findById(paymentId)
                 .orElseThrow(() -> new IllegalArgumentException("paymentId not found"));

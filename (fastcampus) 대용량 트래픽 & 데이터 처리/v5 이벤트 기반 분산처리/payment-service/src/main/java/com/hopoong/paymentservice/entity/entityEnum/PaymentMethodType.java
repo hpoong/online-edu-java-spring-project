@@ -1,4 +1,4 @@
-package com.hopoong.paymentservice.entity.entity;
+package com.hopoong.paymentservice.entity.entityEnum;
 
 public enum PaymentMethodType {
     CREDIT_CARD,

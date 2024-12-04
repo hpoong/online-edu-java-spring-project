@@ -1,6 +1,6 @@
 package com.hopoong.paymentservice.entity;
 
-import com.hopoong.paymentservice.entity.entity.PaymentMethodType;
+import com.hopoong.paymentservice.entity.entityEnum.PaymentMethodType;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;

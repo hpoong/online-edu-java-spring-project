@@ -14,30 +14,35 @@ public class PaymentController {
 
     private final PaymentService paymentService;
 
-
+    /*
+     * 결제 수단 등록
+     */
     @PostMapping("/payment/methods")
     public PaymentMethodEntity registerUser(@RequestBody PaymentMethodDto dto) {
         return paymentService.registerPaymentMethod(dto.getUserId(), dto.getPaymentMethodType(), dto.getCreditCardNumber());
     }
 
-
+    /*
+     * 결제
+     */
     @PostMapping("/payment/process-payment")
     public PaymentEntity registerUser(@RequestBody ProcessPaymentDto dto) {
         return paymentService.processPayment(dto.getUserId(), dto.getOrderId(), dto.getAmountKRW(), dto.getPaymentMethodId());
     }
 
+    /*
+     * user 결제 수단 조회
+     */
+    @GetMapping("/payment/users/{userId}/first-method")
+    public PaymentMethodEntity getPaymentMethodUser(@PathVariable Long userId) {
+        return paymentService.getPaymentMethodUser(userId);
+    }
 
-//    @GetMapping("/payment/users/{userId}/first-method")
-//    public PaymentMethodEntity registerUser(@PathVariable Long userId) {
-//
-//    }
-//
-//    @GetMapping("/payment/methods")
-//    public PaymentMethodEntity registerUser(@PathVariable Long paymentId) {
-//
-//    }
-
-
-
-
+    /*
+     * 결제 내역 조회
+     */
+    @GetMapping("/payment/payments/{paymentId}")
+    public PaymentEntity getPayment(@PathVariable Long paymentId) {
+        return paymentService.getPayment(paymentId);
+    }
 }
