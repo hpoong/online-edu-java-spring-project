@@ -1,0 +1,18 @@
+services:
+  cassandra:
+    image: cassandra:4.1
+    container_name: cassandra
+    ports:
+      - "9042:9042"
+    environment:
+      - CASSANDRA_SEEDS=cassandra
+      - CASSANDRA_CLUSTER_NAME= my-cluster
+      - CASSANDRA_ENDPOINT_SNITCH= SimpleSnitch
+      - CASSANDRA_START_RPC= true
+      - CASSANDRA_DC= datacenter1
+    volumes:
+      - ./data:/var/lib/cassandra
+
+networks:
+  cassandra-network:
+    driver: bridge
