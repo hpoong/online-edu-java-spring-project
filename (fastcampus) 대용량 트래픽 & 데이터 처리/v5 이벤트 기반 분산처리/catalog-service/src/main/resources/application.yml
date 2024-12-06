@@ -8,3 +8,10 @@ logging:
   level:
     root: info
 
+spring:
+  cassandra:
+    keyspace-name: test_keyspace
+    port: 9042
+    contact-points: localhost
+    schema-action: create_if_not_exists
+    local-datacenter: datacenter1
