@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 @Data
 public class SellerProductEntity {
 
+    //
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

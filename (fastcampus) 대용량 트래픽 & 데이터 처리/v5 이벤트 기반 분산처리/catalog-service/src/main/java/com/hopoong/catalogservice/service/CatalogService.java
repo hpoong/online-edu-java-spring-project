@@ -7,7 +7,9 @@ import com.hopoong.catalogservice.mysql.repository.SellerProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.cassandra.core.mapping.Column;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -37,8 +39,37 @@ public class CatalogService {
                 stockCount,
                 tags);
 
-        productRepository.save(productEntity);
-        return null;
+        return productRepository.save(productEntity);
+    }
+
+
+    public void deleteProduct(Long productId) {
+        productRepository.deleteById(productId);
+        sellerProductRepository.deleteById(productId);
+    }
+
+    public List<ProductEntity> getProductsBySellerId(Long sellerId) {
+        var sellerProducts = sellerProductRepository.findBySellerId(sellerId);
+
+        var products = new ArrayList<ProductEntity>();
+
+        for(var item : sellerProducts) {
+            var product = productRepository.findById(item.getId());
+            product.ifPresent(products::add);
+        }
+        return products;
+    }
+
+
+    public ProductEntity getProductId(Long productId) {
+        return productRepository.findById(productId).orElseThrow();
+    }
+
+
+    public  ProductEntity decreaseStockCount(Long productId, Long decreaseCount) {
+        var product = productRepository.findById(productId).orElseThrow();
+        product.setStockCount(product.getStockCount() - decreaseCount);
+        return productRepository.save(product);
     }
 
 }
