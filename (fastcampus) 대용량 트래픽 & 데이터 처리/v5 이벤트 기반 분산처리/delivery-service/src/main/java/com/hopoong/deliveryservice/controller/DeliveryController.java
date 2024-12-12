@@ -43,7 +43,7 @@ public class DeliveryController {
 
 
     /*
-     * 사용자 배송지 전체 조회
+     * 사용자 특정 배송지 조회
      */
     @PostMapping("/delivery/adress/{addressId}")
     public UserAddressEntity getAddress(@PathVariable Long addressId) {
