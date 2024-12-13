@@ -51,7 +51,7 @@ public class CatalogController {
      * 제품 재고 감소
      */
     @PostMapping("/catalog/products/{productId}/decresseStockCount")
-    public ProductEntity test(@PathVariable Long productId, @RequestBody DecreaseStockCountDto decreaseStockCountDto) {
+    public ProductEntity decreaseStockCount(@PathVariable Long productId, @RequestBody DecreaseStockCountDto decreaseStockCountDto) {
         return catalogService.decreaseStockCount(productId, decreaseStockCountDto.getDecreaseCount());
     }
 

@@ -22,7 +22,7 @@ public interface PaymentClinet {
      * 결제
      */
     @PostMapping("/payment/process-payment")
-    Map<String, Object> registerUser(@RequestBody ProcessPaymentDto dto);
+    Map<String, Object> processPayment(@RequestBody ProcessPaymentDto dto);
 
     /*
      * 결제 내역 조회

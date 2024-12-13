@@ -19,7 +19,7 @@ public class DeliveryController {
      * 배송 등록
      */
     @PostMapping("/delivery/process-delivery")
-    public DeliveryEntity registerDelivery(@RequestBody ProcessDeliveryDto dto) {
+    public DeliveryEntity processDelivery(@RequestBody ProcessDeliveryDto dto) {
         return deliveryService.processDelivery(dto.getOrderId(), dto.getProductName(), dto.getProductCount(), dto.getAddress());
     }
 
@@ -37,7 +37,7 @@ public class DeliveryController {
      * 사용자 배송지 등록
      */
     @PostMapping("/delivery/address")
-    public UserAddressEntity registerUserAddress(@RequestBody RegisterAddressDto dto) {
+    public UserAddressEntity addUserAddress(@RequestBody RegisterAddressDto dto) {
         return deliveryService.addUserAddress(dto.getUserId(), dto.getAddress(), dto.getAlias());
     }
 

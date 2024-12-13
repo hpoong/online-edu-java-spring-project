@@ -19,22 +19,22 @@ public class OrderController {
 
     @PostMapping("/order/start-order}")
     public StartOrderResponseDto startOrder(@RequestBody StartOrderDto dto) {
-
+        return orderService.startOrder(dto.getUserId(), dto.getProductId(), dto.getCount());
     }
 
     @PostMapping("/order/finish-order")
     public ProductOrderEntity finishOrder(@RequestBody FinishOrderDto dto) {
-
+        return orderService.finishOrder(dto.getOrderId(), dto.getPaymentMethodId(), dto.getAddressId());
     }
 
     @GetMapping("/order/users/{userId}/orders")
     public List<ProductOrderEntity> getUserOrders(@PathVariable Long userId) {
-
+        return orderService.getUserOrders(userId);
     }
 
     @GetMapping("/order/orders/{orderId}")
     public ProductOrderDetailDto getOrder (@PathVariable Long orderId) {
-
+        return orderService.getOrderDetail(orderId);
     }
 
 

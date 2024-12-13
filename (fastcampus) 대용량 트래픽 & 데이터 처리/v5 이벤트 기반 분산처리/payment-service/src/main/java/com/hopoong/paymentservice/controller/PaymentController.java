@@ -26,7 +26,7 @@ public class PaymentController {
      * 결제
      */
     @PostMapping("/payment/process-payment")
-    public PaymentEntity registerUser(@RequestBody ProcessPaymentDto dto) {
+    public PaymentEntity processPayment(@RequestBody ProcessPaymentDto dto) {
         return paymentService.processPayment(dto.getUserId(), dto.getOrderId(), dto.getAmountKRW(), dto.getPaymentMethodId());
     }
 

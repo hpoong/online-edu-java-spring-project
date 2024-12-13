@@ -13,13 +13,11 @@ public class ProductOrderDetailDto {
 
     private Long productId;
 
-    private Long count;
-
-    private OrderStatus orderStatus;
-
     private Long paymentId;
 
     private Long deliveryId;
+
+    private OrderStatus orderStatus;
 
     private String paymentStatus;
 

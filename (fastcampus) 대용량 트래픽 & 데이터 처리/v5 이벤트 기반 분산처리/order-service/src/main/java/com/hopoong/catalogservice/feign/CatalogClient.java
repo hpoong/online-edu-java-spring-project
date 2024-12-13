@@ -24,5 +24,5 @@ public interface CatalogClient {
      * 제품 재고 감소
      */
     @PostMapping("/catalog/products/{productId}/decresseStockCount")
-    Map<String, Object> test(@PathVariable Long productId, @RequestBody DecreaseStockCountDto decreaseStockCountDto);
+    Map<String, Object> decreaseStockCount(@PathVariable Long productId, @RequestBody DecreaseStockCountDto decreaseStockCountDto);
 }

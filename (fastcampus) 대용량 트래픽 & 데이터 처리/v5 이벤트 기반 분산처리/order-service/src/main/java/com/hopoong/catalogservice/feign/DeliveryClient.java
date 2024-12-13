@@ -30,7 +30,7 @@ public interface DeliveryClient {
      * 배송 등록
      */
     @PostMapping("/delivery/process-delivery")
-    Map<String, Object> registerDelivery(@RequestBody ProcessDeliveryDto dto);
+    Map<String, Object> processDelivery(@RequestBody ProcessDeliveryDto dto);
 
 
     /*

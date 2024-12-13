@@ -13,6 +13,8 @@ import lombok.NoArgsConstructor;
 @Entity(name = "product_order")
 public class ProductOrderEntity {
 
+    // 주문 상태 Table
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
