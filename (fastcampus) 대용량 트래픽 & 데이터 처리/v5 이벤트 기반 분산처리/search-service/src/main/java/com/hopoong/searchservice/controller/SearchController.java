@@ -13,23 +13,25 @@ public class SearchController {
 
     private final SearchService searchService;
 
+    
+    // TODO : 이벤트 기반으로 변경
 
-    /*
-     * 태그 등록
-     */
-    @PostMapping("/search/addTagCache")
-    public void addTagCache(@RequestBody ProductTagsDto productTagsDto) {
-        searchService.addTagCache(productTagsDto.getProductId(), productTagsDto.getTags());
-    }
-
-
-    /*
-     * 태그 삭제
-     */
-    @PostMapping("/search/removeTagCache")
-    public void removeTagCache(@RequestBody ProductTagsDto productTagsDto) {
-        searchService.removeTagCache(productTagsDto.getProductId(), productTagsDto.getTags());
-    }
+//    /*
+//     * 태그 등록
+//     */
+//    @PostMapping("/search/addTagCache")
+//    public void addTagCache(@RequestBody ProductTagsDto productTagsDto) {
+//        searchService.addTagCache(productTagsDto.getProductId(), productTagsDto.getTags());
+//    }
+//
+//
+//    /*
+//     * 태그 삭제
+//     */
+//    @PostMapping("/search/removeTagCache")
+//    public void removeTagCache(@RequestBody ProductTagsDto productTagsDto) {
+//        searchService.removeTagCache(productTagsDto.getProductId(), productTagsDto.getTags());
+//    }
 
 
     /*

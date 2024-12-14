@@ -10,7 +10,8 @@ import lombok.NoArgsConstructor;
 @Data
 public class SellerProductEntity {
 
-    //
+    // 판매자 정보 테이블
+    // pk : 제품 ID 값
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

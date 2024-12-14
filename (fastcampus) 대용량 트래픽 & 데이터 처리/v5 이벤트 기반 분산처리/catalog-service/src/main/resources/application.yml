@@ -15,9 +15,27 @@ spring:
     password: 1234
     driver-class-name: com.mysql.cj.jdbc.Driver
 
+  jpa:
+    hibernate:
+      ddl-auto: update
+
   cassandra:
     keyspace-name: test_keyspace
     port: 9042
     contact-points: localhost
     schema-action: create_if_not_exists
     local-datacenter: datacenter1
+
+  kafka:
+    bootstrap-servers:
+      - 127.0.0.1:9092
+#      - 127.0.0.1:9093
+#      - 127.0.0.1:9094
+    consumer:
+      group-id: testgroup
+      auto-offset-reset: earliest # 앞에 부터 읽기
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.ByteArrayDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.ByteArrayDeserializer

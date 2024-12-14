@@ -2,8 +2,8 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.3.1'
 	id 'io.spring.dependency-management' version '1.1.5'
+	id 'com.google.protobuf' version '0.9.4'
 }
-
 group = 'com.hopoong'
 
 java {
@@ -46,6 +46,16 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok:1.18.32'
 	annotationProcessor 'org.projectlombok:lombok:1.18.32'
 
+
+	// kafka
+	implementation 'org.springframework.kafka:spring-kafka'
+	implementation 'org.apache.kafka:kafka-streams'
+
+
+	// protobuf
+	implementation 'com.google.protobuf:protobuf-java:3.25.2'
+
+
 	// test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
@@ -55,4 +65,10 @@ tasks.named('test') {
 	useJUnitPlatform()
 }
 
+
+protobuf {
+	protoc {
+		artifact = 'com.google.protobuf:protoc:3.25.2'
+	}
+}
 

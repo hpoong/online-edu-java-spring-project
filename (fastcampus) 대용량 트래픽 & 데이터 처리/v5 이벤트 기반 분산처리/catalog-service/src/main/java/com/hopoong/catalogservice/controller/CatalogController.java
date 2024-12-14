@@ -18,7 +18,7 @@ public class CatalogController {
     /*
      * 제품 등록
      */
-    @PostMapping("/catalog/products/{productId}")
+    @PostMapping("/catalog/products")
     public ProductEntity registerProduct(@RequestBody RegisterProductDto dto) {
         return catalogService.registerProduct(dto.getSellerId(), dto.getName(), dto.getDescription(), dto.getPrice(), dto.getStockCount(), dto.getTags());
     }
