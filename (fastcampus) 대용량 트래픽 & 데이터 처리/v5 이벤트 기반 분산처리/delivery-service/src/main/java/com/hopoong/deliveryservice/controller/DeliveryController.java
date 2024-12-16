@@ -15,13 +15,14 @@ public class DeliveryController {
     private final DeliveryService deliveryService;
 
 
-    /*
-     * 배송 등록
-     */
-    @PostMapping("/delivery/process-delivery")
-    public DeliveryEntity processDelivery(@RequestBody ProcessDeliveryDto dto) {
-        return deliveryService.processDelivery(dto.getOrderId(), dto.getProductName(), dto.getProductCount(), dto.getAddress());
-    }
+    // TODO : 해당 부분 필요 없음
+//    /*
+//     * 배송 등록
+//     */
+//    @PostMapping("/delivery/process-delivery")
+//    public DeliveryEntity processDelivery(@RequestBody ProcessDeliveryDto dto) {
+//        return deliveryService.processDelivery(dto.getOrderId(), dto.getProductName(), dto.getProductCount(), dto.getAddress());
+//    }
 
 
     /*

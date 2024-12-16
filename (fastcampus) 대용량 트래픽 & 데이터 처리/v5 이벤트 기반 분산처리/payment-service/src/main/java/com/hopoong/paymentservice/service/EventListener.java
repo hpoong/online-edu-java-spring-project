@@ -24,6 +24,7 @@ public class EventListener {
         var object = EdaMessage.PaymentRequestV1.parseFrom(message);
         log.info("[payment_request] consumed ::::: {}", object);
 
+        // 결제
         var payment = paymentService.processPayment(
                 object.getUserId(),
                 object.getOrderId(),
@@ -31,12 +32,12 @@ public class EventListener {
                 object.getPaymentMethodId()
         );
 
+        // 결제 최종 완료 알려줌?
         var paymentResultMessage = EdaMessage.PaymentResultV1.newBuilder()
             .setPaymentId(payment.getId())
             .setOrderId(payment.getOrderId())
             .setPaymentStatus(payment.getPaymentStatus().toString())
             .build();
-
 
         kafkaTemplate.send("payment_result", paymentResultMessage.toByteArray());
     }
