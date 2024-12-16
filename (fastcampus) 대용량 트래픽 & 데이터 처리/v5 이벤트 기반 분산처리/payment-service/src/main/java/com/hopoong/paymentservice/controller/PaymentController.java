@@ -22,13 +22,14 @@ public class PaymentController {
         return paymentService.registerPaymentMethod(dto.getUserId(), dto.getPaymentMethodType(), dto.getCreditCardNumber());
     }
 
-    /*
-     * 결제
-     */
-    @PostMapping("/payment/process-payment")
-    public PaymentEntity processPayment(@RequestBody ProcessPaymentDto dto) {
-        return paymentService.processPayment(dto.getUserId(), dto.getOrderId(), dto.getAmountKRW(), dto.getPaymentMethodId());
-    }
+    // TODO : 해당 부분 필요 없음.
+//    /*
+//     * 결제
+//     */
+//    @PostMapping("/payment/process-payment")
+//    public PaymentEntity processPayment(@RequestBody ProcessPaymentDto dto) {
+//        return paymentService.processPayment(dto.getUserId(), dto.getOrderId(), dto.getAmountKRW(), dto.getPaymentMethodId());
+//    }
 
     /*
      * user 결제 수단 조회
