@@ -1,0 +1,3 @@
+
+rootProject.name = "featureflag-service"
+include("featureflag-app", "featureflag-adapter", "featureflag-usecase")

@@ -1,0 +1,3 @@
+services:
+  featureflag-app:
+    image:
