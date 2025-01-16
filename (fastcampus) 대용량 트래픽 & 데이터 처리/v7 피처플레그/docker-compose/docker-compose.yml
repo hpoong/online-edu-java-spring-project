@@ -1,13 +1,13 @@
 services:
-  featureflag-app:
-    image: registry.gitlab.com/mason14/docker-image-store:featureflag-service
-    networks:
-      - featureflag_network
-    ports:
-      - "8080:8080"
-    environment:
-      - FEATUREFLAG_ENGINE_HOST=featureflag-engine
-      - FEATUREFLAG_ENGINE_PORT=8013
+#  featureflag-app:
+#    image: registry.gitlab.com/mason14/docker-image-store:featureflag-service
+#    networks:
+#      - featureflag_network
+#    ports:
+#      - "8080:8080"
+#    environment:
+#      - FEATUREFLAG_ENGINE_HOST=featureflag-engine
+#      - FEATUREFLAG_ENGINE_PORT=8013
 
 
   featureflag-engine:
