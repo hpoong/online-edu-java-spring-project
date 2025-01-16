@@ -1,0 +1,13 @@
+{
+  "flags": {
+    "myStringFlag": {
+      "state": "ENABLED",
+      "variants": {
+        "key1": "version1",
+        "key2": "version2",
+        "key3": "version3"
+      },
+      "defaultVariant": "key3"
+    }
+  }
+}

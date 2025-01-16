@@ -1,10 +1,40 @@
 
 
 server:
-  port: 8082
+  port: 8080
 
 
 logging:
   config: classpath:logback/logback-spring.xml
   level:
     root: info
+
+spring:
+  config:
+    import: application-adapter.yml
+  jpa:
+    open-in-view: false
+
+management:
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      enabled: true
+      group:
+        readiness:
+          show-components: always
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+  health:
+    livenessState:
+      enabled: true
+    readinessState:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health, metrics, prometheus
+    enabled-by-default: false
