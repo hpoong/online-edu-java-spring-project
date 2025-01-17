@@ -14,8 +14,16 @@ dependencies {
 	// springframework
 	implementation 'org.springframework.boot:spring-boot-starter-web'		// web
 
-	// springdoc-openapi-starter-webmvc-ui
+
+	// swagger
 	implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.6.0'
+
+	// prometheus
+	implementation 'org.springframework.boot:spring-boot-starter-actuator' 	// actuator
+	implementation group: 'io.micrometer', name: 'micrometer-registry-prometheus', version: '1.14.3'
+
+	// cache
+	implementation 'org.ehcache:ehcache:3.10.8'
 
 	// test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -25,3 +33,5 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+
