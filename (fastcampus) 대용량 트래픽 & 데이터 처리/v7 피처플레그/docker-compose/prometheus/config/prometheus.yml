@@ -1,0 +1,14 @@
+global:
+  scrape_interval: 5s
+  scrape_timeout: 3s
+
+  external_labels:
+    monitor: 'featureflag-app-monitoring'
+  query_log_file: query_log_file.log
+
+scrape_configs:
+  - job_name: 'featureflag-app-job'
+    metrics_path: '/actuator/prometheus'
+    scheme: 'http'
+    static_configs:
+      - targets: ['host.docker.internal:8080']

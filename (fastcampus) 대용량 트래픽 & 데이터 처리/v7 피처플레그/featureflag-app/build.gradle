@@ -25,6 +25,9 @@ dependencies {
 	// cache
 	implementation 'org.ehcache:ehcache:3.10.8'
 
+	// json
+	implementation 'com.google.code.gson:gson:2.11.0'
+
 	// test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'

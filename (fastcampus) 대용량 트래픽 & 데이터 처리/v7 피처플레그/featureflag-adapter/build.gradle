@@ -17,6 +17,13 @@ dependencies {
 	implementation 'dev.openfeature:sdk:1.7.2'
 	implementation 'dev.openfeature.contrib.providers:flagd:0.6.9'
 
+	// prometheus
+	implementation 'org.springframework.boot:spring-boot-starter-actuator' 	// actuator
+	implementation group: 'io.micrometer', name: 'micrometer-registry-prometheus', version: '1.14.3'
+
+	// cache
+	implementation 'org.ehcache:ehcache:3.10.0'
+
 	// test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'

@@ -11,8 +11,9 @@ services:
 
 
   featureflag-engine:
-    image: ghcr.io/open-feature/flagd:latest
-    command: start --uri file:./etc/flagd/v1_example_flags.json
+    image: ghcr.io/open-feature/flagd:v0.11.7
+#    command: start --uri file:./etc/flagd/v1_example_flags.json
+    command: start --uri file:./etc/flagd/v2_example_flags.json
 #    command: start  --uri https://raw.githubusercontent.com/open-feature/flagd/main/samples/example_flags.flagd.json
     volumes:
       - ./flagd:/etc/flagd
@@ -22,6 +23,41 @@ services:
     tty: true
     ports:
       - "8013:8013"
+
+  prometheus:
+    image: prom/prometheus:v3.1.0
+    container_name: prometheus
+    volumes:
+      - ./prometheus/config:/etc/prometheus
+      - ./prometheus/volume:/prometheus
+    ports:
+      - "9090:9090"
+    command:
+      - '--web.enable-lifecycle'
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    restart: always
+    networks:
+      - featureflag_network
+
+  grafana:
+    image: grafana/grafana:11.4.0
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./grafana:/var/lib/grafana
+    restart: always
+    networks:
+      - featureflag_network
+
+  locust:
+    image: locustio/locust:2.32.6
+    ports:
+      - "8089:8089"
+    volumes:
+      - ./locust:/mnt/locust
+    command: -f /mnt/locust/v1_locustfile.py -H http://host.docker.internal:8080
+
 networks:
   featureflag_network:
     driver: bridge
