@@ -1,7 +1,7 @@
 
 
 server:
-  port: 8080
+  port: 9000
 
 
 logging:
@@ -12,12 +12,13 @@ logging:
 
 spring:
   jpa:
-    hikari:
-      jdbc-url: jdbc:mysql://localhost:3306/legacy-ad
-      username: root
-      password: localpw
-    properties:
-      hibernate:
-        hbm2ddl.auto: update
-        show_sql: true
-        physical_naming_strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+    legacy-ad:
+      hikari:
+        jdbc-url: jdbc:mysql://localhost:3306/legacy-ad
+        username: root
+        password: localpw
+      properties:
+        hibernate:
+          hbm2ddl.auto: update
+          show_sql: true
+          physical_naming_strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
