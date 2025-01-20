@@ -1,0 +1,3 @@
+
+rootProject.name = "dsp-migration-service"
+include("dsp-migration-app")
