@@ -1,4 +1,4 @@
-package com.hopoong.dspmigration.app.legacy.repository;
+package com.hopoong.dspmigration.app.legacy.api.user;
 
 import com.hopoong.dspmigration.app.legacy.domain.LegacyUser;
 import org.springframework.data.repository.CrudRepository;

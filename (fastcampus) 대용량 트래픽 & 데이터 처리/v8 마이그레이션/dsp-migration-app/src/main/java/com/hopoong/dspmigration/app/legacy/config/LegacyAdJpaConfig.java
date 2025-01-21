@@ -1,9 +1,9 @@
 package com.hopoong.dspmigration.app.legacy.config;
 
 import com.zaxxer.hikari.HikariDataSource;
-import jakarta.persistence.EntityManagerFactory;
 import java.util.Properties;
-import javax.sql.DataSource;
+
+import jakarta.persistence.EntityManagerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -22,10 +22,11 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableJpaRepositories(
-    basePackages = "com.hopoong.dspmigration.app.legacy.domain",
+    basePackages = "com.hopoong.dspmigration.app.legacy.api",
     entityManagerFactoryRef = "legacyAdEntityManagerFactory",
     transactionManagerRef = "legacyAdTransactionManager"
 )
+@EnableTransactionManagement
 public class LegacyAdJpaConfig {
 
     @Bean("legacyAdDataSource")
@@ -54,10 +55,10 @@ public class LegacyAdJpaConfig {
         return factoryBean;
     }
 
-    @Bean("legacyAdTransactionManager")
-    public PlatformTransactionManager transactionManager(
-            @Qualifier("legacyAdEntityManagerFactory") EntityManagerFactory entityManagerFactory) {
-        return new JpaTransactionManager(entityManagerFactory);
-    }
+@Bean("legacyAdTransactionManager")
+public PlatformTransactionManager transactionManager(
+        @Qualifier("legacyAdEntityManagerFactory") EntityManagerFactory entityManagerFactory) {
+    return new JpaTransactionManager(entityManagerFactory);
+}
 
 }
