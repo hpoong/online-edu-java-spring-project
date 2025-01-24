@@ -10,3 +10,20 @@ spring:
           hbm2ddl.auto: update
           show_sql: true
           physical_naming_strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+
+  cloud:
+    stream:
+      binders:
+        legacy-rabbit:
+          type: rabbit
+          environment:
+            spring.rabbitmq:
+              host: localhost
+              port: 5672
+              username: ruser
+              password: localpw
+              virtual-host: legacy
+      bindings:
+        legacy-rabbit-out:          # Binding Name
+          binder: legacy-rabbit     # Binder Name
+          destination: legacy-topic # Exchange

@@ -1,0 +1,16 @@
+services:
+  rabbitmq-service:
+    image: rabbitmq:3.13.0-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    restart: always
+    environment:
+      RABBITMQ_DEFAULT_USER: ruser
+      RABBITMQ_DEFAULT_PASS: localpw
+      RABBITMQ_DEFAULT_VHOST: legacy
+    volumes:
+      - ./data:/var/lib/rabbitmq
+networks:
+  rabbitmq-network:
+    driver: bridge

@@ -4,12 +4,12 @@ services:
     container_name: mysql-master
     environment:
       MYSQL_ROOT_PASSWORD: localpw
-    #      MYSQL_USER: user
-    #      MYSQL_PASSWORD: localpw
-    #      MYSQL_DATABASE: legacy-ad
-    #      MYSQL_REPLICATION_MODE: master
-    #      MYSQL_REPLICATION_USER: replica_user
-    #      MYSQL_REPLICATION_PASSWORD: replica_password
+      MYSQL_DATABASE: legacy-ad
+#      MYSQL_USER: user
+#      MYSQL_PASSWORD: localpw
+#      MYSQL_REPLICATION_MODE: master
+#      MYSQL_REPLICATION_USER: replica_user
+#      MYSQL_REPLICATION_PASSWORD: replica_password
     ports:
       - "3306:3306"
     command: --server-id=1
