@@ -1,7 +1,6 @@
 package com.hopoong.dspmigration.app.legacy.api.keyword.event;
 
 import com.hopoong.dspmigration.app.legacy.domain.LegacyKeyword;
-import com.hopoong.dspmigration.app.legacy.domain.LegacyUser;
 import com.hopoong.dspmigration.app.legacy.event.AggregateType;
 import com.hopoong.dspmigration.app.legacy.event.DomainEvent;
 

@@ -1,7 +1,6 @@
 package com.hopoong.dspmigration.app.legacy.api.adgroup.event;
 
 import com.hopoong.dspmigration.app.legacy.domain.LegacyAdGroup;
-import com.hopoong.dspmigration.app.legacy.domain.LegacyUser;
 import com.hopoong.dspmigration.app.legacy.event.AggregateType;
 import com.hopoong.dspmigration.app.legacy.event.DomainEvent;
 
