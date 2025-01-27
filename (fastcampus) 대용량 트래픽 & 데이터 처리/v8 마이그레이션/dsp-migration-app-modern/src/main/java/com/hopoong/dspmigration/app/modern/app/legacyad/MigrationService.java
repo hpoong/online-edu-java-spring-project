@@ -1,4 +1,4 @@
-package com.hopoong.dspmigration.app.modern.api.legacyad;
+package com.hopoong.dspmigration.app.modern.app.legacyad;
 
 public interface MigrationService {
 

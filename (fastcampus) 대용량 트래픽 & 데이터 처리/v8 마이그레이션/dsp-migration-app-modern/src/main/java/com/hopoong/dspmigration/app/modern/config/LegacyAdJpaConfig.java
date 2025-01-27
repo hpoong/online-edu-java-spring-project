@@ -21,7 +21,7 @@ import java.util.Properties;
 
 @Configuration
 @EnableJpaRepositories(
-    basePackages = "com.hopoong.dspmigration.app.modern.repository.recent",
+    basePackages = "com.hopoong.dspmigration.app.modern.repository.legacy",
     entityManagerFactoryRef = "legacyAdEntityManagerFactory",
     transactionManagerRef = "legacyAdTransactionManager"
 )

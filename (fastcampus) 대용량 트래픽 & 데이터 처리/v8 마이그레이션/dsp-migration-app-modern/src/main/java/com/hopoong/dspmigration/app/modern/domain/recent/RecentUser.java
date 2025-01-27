@@ -24,4 +24,9 @@ public class RecentUser implements MigratedEntity {
     private LocalDateTime updatedAt;
     private LocalDateTime deletedAt;
     private LocalDateTime migratedAt;
+
+    public static RecentUser migrated(Long id, String name, LocalDateTime createdAt, LocalDateTime updatedAt, LocalDateTime deletedAt) {
+        return new RecentUser(id, name, createdAt, updatedAt, deletedAt, LocalDateTime.now());
+    }
+
 }
