@@ -1,0 +1,26 @@
+
+
+spring:
+  jpa:
+    legacy-ad:
+      hikari:
+        jdbc-url: jdbc:mysql://localhost:33306/legacy-ad
+        username: root
+        password: localpw
+      properties:
+        hibernate:
+          dialect: org.hibernate.dialect.MySQL8Dialect
+          hbm2ddl.auto: validate
+          show_sql: true
+          physical_naming_strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+    recent-ad:
+      hikari:
+        jdbc-url: jdbc:postgresql://localhost:35432/postgres
+        username: postgres
+        password: localpw
+      properties:
+        hibernate:
+          dialect: org.hibernate.dialect.PostgreSQLDialect
+          hbm2ddl.auto: update
+          show_sql: true
+          physical_naming_strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy

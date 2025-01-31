@@ -14,7 +14,7 @@ spring:
   jpa:
     legacy-ad:
       hikari:
-        jdbc-url: jdbc:mysql://192.168.0.22:3306/legacy-ad
+        jdbc-url: jdbc:mysql://localhost:33306/legacy-ad
         username: root
         password: localpw
       properties:
@@ -32,7 +32,7 @@ spring:
           environment:
             spring.rabbitmq:
               host: localhost
-              port: 5672
+              port: 35672
               username: ruser
               password: localpw
               virtual-host: legacy
