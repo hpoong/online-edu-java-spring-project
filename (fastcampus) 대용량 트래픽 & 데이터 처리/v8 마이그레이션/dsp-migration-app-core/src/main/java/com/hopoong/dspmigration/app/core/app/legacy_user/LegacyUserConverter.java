@@ -1,4 +1,4 @@
-package com.hopoong.dspmigration.app.core.app.user;
+package com.hopoong.dspmigration.app.core.app.legacy_user;
 
 import com.hopoong.dspmigration.app.core.converter.LegacyConverter;
 import com.hopoong.dspmigration.app.core.domain.legacyad.LegacyUser;

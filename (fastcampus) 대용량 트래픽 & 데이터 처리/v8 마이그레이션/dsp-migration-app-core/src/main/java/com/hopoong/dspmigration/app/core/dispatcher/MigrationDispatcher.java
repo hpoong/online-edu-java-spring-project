@@ -4,7 +4,7 @@ package com.hopoong.dspmigration.app.core.dispatcher;
 import com.hopoong.dspmigration.app.core.app.adgroup.LegacyAdGroupMigrationService;
 import com.hopoong.dspmigration.app.core.app.campaign.LegacyCampaignMigrationService;
 import com.hopoong.dspmigration.app.core.app.keyword.LegacyKeywordMigrationService;
-import com.hopoong.dspmigration.app.core.app.user.LegacyUserMigrationService;
+import com.hopoong.dspmigration.app.core.app.legacy_user.LegacyUserMigrationService;
 import com.hopoong.dspmigration.app.core.converter.MigrationService;
 import com.hopoong.dspmigration.app.core.domain.AggregateType;
 import lombok.RequiredArgsConstructor;

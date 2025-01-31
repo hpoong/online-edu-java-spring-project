@@ -22,7 +22,10 @@ import java.util.Properties;
 
 @Configuration
 @EnableJpaRepositories(
-    basePackages = "com.hopoong.dspmigration.app.core.repository.recent",
+    basePackages = {
+            "com.hopoong.dspmigration.app.core.repository.recent",
+            "com.hopoong.dspmigration.app.core.repository.migration",
+    },
     entityManagerFactoryRef = "recentAdEntityManagerFactory",
     transactionManagerRef = "recentAdTransactionManager"
 )
@@ -50,7 +53,9 @@ public class RecentAdJpaConfig {
             @Qualifier("recentAdJpaProperties") Properties jpaProperties) {
         LocalContainerEntityManagerFactoryBean factoryBean = builder
                 .dataSource(dataSource)
-                .packages("com.hopoong.dspmigration.app.core.domain.recent")
+                .packages(
+                        "com.hopoong.dspmigration.app.core.domain.recent",
+                        "com.hopoong.dspmigration.app.core.domain.migration")
                 .build();
         factoryBean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
         factoryBean.setJpaProperties(jpaProperties);

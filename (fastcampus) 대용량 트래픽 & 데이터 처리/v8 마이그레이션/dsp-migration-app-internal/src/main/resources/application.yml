@@ -1,0 +1,13 @@
+
+
+server:
+  port: 9200
+
+logging:
+  config: classpath:logback/logback-spring.xml
+  level:
+    root: info
+
+spring:
+  profiles:
+    include: core
