@@ -1,0 +1,35 @@
+
+
+server:
+  port: 9300
+
+logging:
+  config: classpath:logback/logback-spring.xml
+  level:
+    root: info
+
+spring:
+  profiles:
+    include: core
+  cloud:
+    stream:
+      kafka:
+        bindings:
+          migrationUserConsumer-in-0:
+            consumer:
+              startOffset: latest
+      binders:
+        migration-kafka:
+          type: kafka
+          environment:
+            spring.cloud.stream.kafka.binder:
+              brokers: localhost:39194
+              replication-factor: 1
+              auto-create-topics: true
+              auto-add-partitions: true
+              min-partition-count: 4
+      bindings:
+        migrationUserConsumer-in-0:
+          binder: migration-kafka
+          destination: migration-user-topic
+          group: batch-migration

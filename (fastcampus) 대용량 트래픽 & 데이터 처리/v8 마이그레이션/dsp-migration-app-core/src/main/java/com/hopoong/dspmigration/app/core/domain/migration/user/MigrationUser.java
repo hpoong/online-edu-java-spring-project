@@ -2,10 +2,8 @@ package com.hopoong.dspmigration.app.core.domain.migration.user;
 
 
 import com.hopoong.dspmigration.app.core.domain.migration.user.event.MigrationAgreedEvent;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Id;
+import com.hopoong.dspmigration.app.core.domain.migration.user.event.MigrationProgressedEvent;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.domain.AbstractAggregateRoot;
@@ -25,6 +23,10 @@ public class MigrationUser extends AbstractAggregateRoot<MigrationUser> {
     private LocalDateTime agreedAt;
     private LocalDateTime updateAt;
 
+    @Transient
+    private MigrationUserStatus prevStatus;
+
+
     private MigrationUser(Long id, LocalDateTime agreedAt) {
         this.id = id;
         this.status = MigrationUserStatus.AGREED;
@@ -35,6 +37,13 @@ public class MigrationUser extends AbstractAggregateRoot<MigrationUser> {
 
     public static MigrationUser agreed(Long id) {
         return new MigrationUser(id, LocalDateTime.now());
+    }
+
+    public void progressMigration() {
+        prevStatus = status;
+        status = status.next();
+        updateAt = LocalDateTime.now();
+        registerEvent(new MigrationProgressedEvent(this));
     }
 
 
