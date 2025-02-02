@@ -19,7 +19,7 @@ public class LegacyDomainMessageHandler {
     public Consumer<LegacyDomainMessage> legacyConsumer() {
         return message -> {
             log.info(message.toString());
-            migrationDispatcher.dispatch(message.aggregateId(), message.aggregateType());
+            migrationDispatcher.dispatch(message.ownerId(), message.aggregateId(), message.aggregateType());
         };
     }
 }

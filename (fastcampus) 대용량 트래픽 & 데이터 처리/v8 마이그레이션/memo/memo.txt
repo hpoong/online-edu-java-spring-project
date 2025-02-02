@@ -3,4 +3,10 @@
 - api는 매우 기본적인 CRUD 이다.
 
 
--
+http://localhost:15672
+
+http://localhost:37081
+
+http://localhost:9200/swagger-ui/index.html
+
+http://localhost:9000/swagger-ui/index.html

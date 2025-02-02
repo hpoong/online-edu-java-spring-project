@@ -5,6 +5,7 @@ import com.hopoong.dspmigration.app.core.app.adgroup.LegacyAdGroupMigrationServi
 import com.hopoong.dspmigration.app.core.app.campaign.LegacyCampaignMigrationService;
 import com.hopoong.dspmigration.app.core.app.keyword.LegacyKeywordMigrationService;
 import com.hopoong.dspmigration.app.core.app.legacy_user.LegacyUserMigrationService;
+import com.hopoong.dspmigration.app.core.app.migration_user.MigrationUserService;
 import com.hopoong.dspmigration.app.core.converter.MigrationService;
 import com.hopoong.dspmigration.app.core.domain.AggregateType;
 import lombok.RequiredArgsConstructor;
@@ -16,17 +17,25 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class MigrationDispatcher {
 
+    private final MigrationUserService migrationUserService;
     private final LegacyUserMigrationService legacyUserMigrationService;
     private final LegacyCampaignMigrationService legacyCampaignMigrationService;
     private final LegacyAdGroupMigrationService legacyAdGroupMigrationService;
     private final LegacyKeywordMigrationService legacyKeywordMigrationService;
 
 
-    public boolean dispatch(Long aggregateId, AggregateType aggregateType) {
-        return migrate(aggregateId, aggregateType);
+    public boolean dispatch(Long userId, Long aggregateId, AggregateType aggregateType) {
+        if (isDisagreed(userId)) { // 데이터 없으면 true.
+            return false;
+        }
+        return migrate(userId, aggregateId, aggregateType);
     }
 
-    private boolean migrate(Long aggregateId, AggregateType aggregateType) {
+    private boolean isDisagreed(Long userId) {
+        return migrationUserService.isDisagreed(userId);
+    }
+
+    private boolean migrate(Long userId, Long aggregateId, AggregateType aggregateType) {
         MigrationService service = switch (aggregateType) {
             case USER -> legacyUserMigrationService;
             case CAMPAIGN -> legacyCampaignMigrationService;
@@ -34,15 +43,15 @@ public class MigrationDispatcher {
             case KEYWORD -> legacyKeywordMigrationService;
         };
         boolean result = service.migrate(aggregateId);
-        logMigrationResult(result, aggregateType, aggregateId);
+        logMigrationResult(userId, result, aggregateType, aggregateId);
         return result;
     }
 
-    private void logMigrationResult(boolean result, AggregateType aggregateType, Long aggregateId) {
+    private void logMigrationResult(Long userId, boolean result, AggregateType aggregateType, Long aggregateId) {
         if (result) {
-            log.info("{}", LegacyMigrationLog.success(aggregateType, aggregateId));
+            log.info("{}", LegacyMigrationLog.success(userId, aggregateType, aggregateId));
         } else {
-            log.error("{}", LegacyMigrationLog.fail(aggregateType, aggregateId));
+            log.error("{}", LegacyMigrationLog.fail(userId, aggregateType, aggregateId));
         }
     }
 }

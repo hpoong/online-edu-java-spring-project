@@ -25,11 +25,11 @@ public abstract class LegacyUserEvent implements DomainEvent {
     }
 
     @Override
-    public abstract LocalDateTime occurredOn();
-
-    @Override
     public Long ownerId() {
         return legacyUser.getId();
     }
+
+    @Override
+    public abstract LocalDateTime occurredOn();
 
 }

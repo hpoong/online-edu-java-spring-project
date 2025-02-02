@@ -11,3 +11,27 @@ logging:
 spring:
   profiles:
     include: core
+  cloud:
+    stream:
+      kafka:
+        bindings:
+          migration-user-out:
+            producer:
+              sync: true
+      binders:
+        migration-kafka:
+          type: kafka
+          environment:
+            spring.cloud.stream.kafka.binder:
+              brokers: localhost:39194
+              replication-factor: 1
+              auto-create-topics: true
+              auto-add-partitions: true
+              min-partition-count: 4
+      bindings:
+        migration-user-out:
+          binder: migration-kafka
+          destination: migration-user-topic
+          producer:
+            partition-key-expression: headers['partitionKey']
+            partition-count: 4
