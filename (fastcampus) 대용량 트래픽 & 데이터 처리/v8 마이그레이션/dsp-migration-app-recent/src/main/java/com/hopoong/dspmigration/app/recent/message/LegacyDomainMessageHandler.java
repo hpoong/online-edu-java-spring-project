@@ -18,7 +18,7 @@ public class LegacyDomainMessageHandler {
     @Bean
     public Consumer<LegacyDomainMessage> legacyConsumer() {
         return message -> {
-            log.info(message.toString());
+            log.info("legacy migration ::::: {}", message.toString());
             migrationDispatcher.dispatch(message.ownerId(), message.aggregateId(), message.aggregateType());
         };
     }

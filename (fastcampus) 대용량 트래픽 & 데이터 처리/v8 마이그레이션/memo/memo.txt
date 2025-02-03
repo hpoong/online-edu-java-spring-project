@@ -10,3 +10,15 @@ http://localhost:37081
 http://localhost:9200/swagger-ui/index.html
 
 http://localhost:9000/swagger-ui/index.html
+
+
+
+kafka message : 마이그레이션 동의 API
+dsp-migration-app-internal: kafka message producer
+dsp-migration-app-batch:    kafka message consumer
+
+
+
+rabbitMQ message : 마이그레이션 동작
+dsp-migration-app-legacy : rabbitMQ message producer
+dsp-migration-app-recent : rabbitMQ message consumer
