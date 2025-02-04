@@ -4,6 +4,11 @@ import com.hopoong.dspmigration.app.core.domain.legacyad.DeletableEntity;
 import com.hopoong.dspmigration.app.core.domain.recent.MigratedEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 public abstract class LegacyMigrationService<Legacy extends DeletableEntity, Recent extends MigratedEntity> implements MigrationService {
@@ -52,5 +57,24 @@ public abstract class LegacyMigrationService<Legacy extends DeletableEntity, Rec
         return converter.convert(legacy);
     }
 
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public boolean migrate(List<Legacy> legacies) {
+        try {
+            saveRecents(convert(legacies));
+            return true;
+        } catch (RuntimeException e) {
+            log.error("list migration error", e);
+            return false;
+        }
+    }
+
+    private List<Recent> convert(List<Legacy> legacies) {
+        return legacies.stream().map(this::convert).collect(Collectors.toList());
+    }
+
+    private void saveRecents(List<Recent> convert) {
+        recentRepository.saveAll(convert);
+    }
 
 }

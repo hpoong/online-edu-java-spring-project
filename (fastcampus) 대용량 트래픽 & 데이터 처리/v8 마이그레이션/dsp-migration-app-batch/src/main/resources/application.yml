@@ -12,6 +12,8 @@ spring:
   profiles:
     include: core
   cloud:
+    function:
+      definition: migrationUserConsumer;pageMigrationConsumer
     stream:
       kafka:
         bindings:
