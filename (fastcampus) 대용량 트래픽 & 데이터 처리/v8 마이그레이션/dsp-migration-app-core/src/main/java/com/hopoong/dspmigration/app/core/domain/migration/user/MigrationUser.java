@@ -3,6 +3,7 @@ package com.hopoong.dspmigration.app.core.domain.migration.user;
 
 import com.hopoong.dspmigration.app.core.domain.migration.user.event.MigrationAgreedEvent;
 import com.hopoong.dspmigration.app.core.domain.migration.user.event.MigrationProgressedEvent;
+import com.hopoong.dspmigration.app.core.domain.migration.user.event.MigrationRetriedEvent;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,7 +24,7 @@ public class MigrationUser extends AbstractAggregateRoot<MigrationUser> {
     private LocalDateTime agreedAt;
     private LocalDateTime updateAt;
 
-    @Transient
+    @Enumerated(EnumType.STRING)
     private MigrationUserStatus prevStatus;
 
 
@@ -40,11 +41,24 @@ public class MigrationUser extends AbstractAggregateRoot<MigrationUser> {
     }
 
     public void progressMigration() {
-        prevStatus = status;
-        status = status.next();
+        if (MigrationUserStatus.RETRIED.equals(status)) {
+            status = prevStatus.next();
+        } else {
+            prevStatus = status;
+            status = status.next();
+        }
         updateAt = LocalDateTime.now();
         registerEvent(new MigrationProgressedEvent(this));
     }
+
+
+    public void retry() {
+        prevStatus = status;
+        status = MigrationUserStatus.RETRIED;
+        updateAt = LocalDateTime.now();
+        registerEvent(new MigrationRetriedEvent(this));
+    }
+
 
 
 }

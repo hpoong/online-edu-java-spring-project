@@ -1,6 +1,7 @@
 package com.hopoong.dspmigration.app.core.domain.migration.user;
 
 public enum MigrationUserStatus {
+    RETRIED(),
     GRADUALLY_UPDATING(),
     KEYWORD_FINISHED(GRADUALLY_UPDATING),
     ADGROUP_FINISHED(KEYWORD_FINISHED),
@@ -16,6 +17,9 @@ public enum MigrationUserStatus {
         this(null);
     }
     public MigrationUserStatus next() {
+        if (this.equals(RETRIED)) {
+            throw new RuntimeException();
+        }
         return nextStatus;
     }
 
