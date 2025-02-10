@@ -1,0 +1,50 @@
+services:
+  kafka-service:
+    image: bitnami/kafka:3.6.2
+    ports:
+      - '9194:9194'
+    restart: always
+    volumes:
+      - ./data:/bitnami/kafka/data
+    environment:
+      - KAFKA_CFG_NODE_ID=0
+      - KAFKA_CFG_PROCESS_ROLES=controller,broker
+      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=0@localhost:9193
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9192,CONTROLLER://:9193,EXTERNAL://:9194
+      #      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka-service:9192,EXTERNAL://localhost:9194
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka-service:9192,EXTERNAL://106.245.232.58:39194
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,EXTERNAL:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
+      - KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE=true
+    networks:
+      - kafka-network
+
+  redpanda-console:
+    image: redpandadata/console:v2.8.2
+    container_name: redpanda-console
+    ports:
+      - "7081:8080"
+    environment:
+      - KAFKA_BROKERS=kafka-service:9192
+    depends_on:
+      - kafka-service
+    networks:
+      - kafka-network
+
+#  kafka-ui:
+#    image: provectuslabs/kafka-ui:v0.7.2
+#    container_name: kafka-ui
+#    ports:
+#      - "7081:8080"
+#    restart: always
+#    depends_on:
+#      - kafka-service
+#    environment:
+#      - KAFKA_CLUSTERS_0_NAME=local-service
+#      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka-service:9192
+#    networks:
+#      - kafka-network
+
+networks:
+  kafka-network:
+    driver: bridge
