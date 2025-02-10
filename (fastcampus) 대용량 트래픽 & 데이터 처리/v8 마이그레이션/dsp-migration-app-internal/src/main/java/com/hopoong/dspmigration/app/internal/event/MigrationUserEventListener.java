@@ -1,6 +1,7 @@
 package com.hopoong.dspmigration.app.internal.event;
 
 import com.hopoong.dspmigration.app.core.domain.migration.user.event.MigrationAgreedEvent;
+import com.hopoong.dspmigration.app.core.domain.migration.user.event.MigrationRetriedEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.messaging.MessageHeaders;
@@ -18,6 +19,11 @@ public class MigrationUserEventListener {
 
     @TransactionalEventListener
     public void handleAgreedEvent(MigrationAgreedEvent event) {
+        sendMigrationUserMessage(MigrationUserMessage.from(event), event.getUserId());
+    }
+
+    @TransactionalEventListener
+    public void handleRetriedEvent(MigrationRetriedEvent event) {
         sendMigrationUserMessage(MigrationUserMessage.from(event), event.getUserId());
     }
 

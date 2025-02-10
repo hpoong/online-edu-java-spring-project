@@ -39,7 +39,7 @@ public class MigrationUserService implements MigrationService {
     }
 
     @Transactional
-    public MigrationUser startMigration(Long userId) throws RuntimeException {
+    public MigrationUserResult startMigration(Long userId) throws RuntimeException {
         boolean result = migrate(userId);
         if (result) {
             return progressMigration(userId);
@@ -53,10 +53,20 @@ public class MigrationUserService implements MigrationService {
     }
 
     @Transactional
-    public MigrationUser progressMigration(Long userId) {
+    public MigrationUserResult progressMigration(Long userId) {
         MigrationUser migrationUser = find(userId);
         migrationUser.progressMigration();
-        return repository.save(migrationUser);
+        return MigrationUserResult.from(repository.save(migrationUser));
     }
+
+    @Transactional
+    public MigrationUserResult retry(Long userId) {
+        MigrationUser migrationUser = find(userId);
+        migrationUser.retry();
+        return MigrationUserResult.from(repository.save(migrationUser));
+    }
+
+
+
 
 }
