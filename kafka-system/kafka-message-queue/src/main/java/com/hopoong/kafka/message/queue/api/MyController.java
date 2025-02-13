@@ -28,7 +28,7 @@ public class MyController {
 
     @PostMapping("/second-message")
     void secondmessage() {
-        String message = "message" + secondIndex;
+        String message = "message :::: " + secondIndex;
         mySecondProducer.sendMessageWithKey(String.valueOf(secondIndex), message);
         secondIndex++;
     }
