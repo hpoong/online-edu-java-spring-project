@@ -11,6 +11,8 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+
 
 @RequiredArgsConstructor
 @Component
@@ -26,6 +28,7 @@ public class MyCdcConsumer {
     public void listen(ConsumerRecord<String, String> message, Acknowledgment acknowledgment) throws JsonProcessingException {
         MyCdcMessage myCdcMessage = objectMapper.readValue(message.value(), MyCdcMessage.class);
         System.out.println("[Cdc Consumer] " + myCdcMessage.getOperationType() + " Message arrived! (id: " + myCdcMessage.getId() + ") - " + myCdcMessage.getPayload());
-        acknowledgment.acknowledge();
+        throw new RuntimeException("Something happened!");
+//        acknowledgment.acknowledge();
     }
 }
