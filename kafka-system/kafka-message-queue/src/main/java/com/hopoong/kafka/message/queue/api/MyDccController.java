@@ -56,7 +56,7 @@ public class MyDccController {
     MyModel update(
             @PathVariable Integer id,
             @RequestBody String content
-    ) {
+    ) throws JsonProcessingException {
         if (id == null || content == null || content.isBlank()) return null;
         MyModel myModel = myService.findById(id);
         myModel.setContent(content);

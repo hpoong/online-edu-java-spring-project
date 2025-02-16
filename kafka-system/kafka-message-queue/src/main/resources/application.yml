@@ -14,7 +14,7 @@ spring:
 
     # coustom
     json:
-      bootstrap-servers: 192.168.0.22:9092,192.168.0.138:9092,192.168.0.20:9092
+      bootstrap-servers: localhost:9092,localhost:9093,localhost:9094
       consumer:
         key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
         value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
@@ -38,3 +38,17 @@ spring:
         key-serializer: org.apache.kafka.common.serialization.StringSerializer
         value-serializer: org.apache.kafka.common.serialization.StringSerializer
         acks: 0
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/testdb
+    username: root
+    password: localpw
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
