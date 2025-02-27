@@ -11,11 +11,4 @@ import java.util.Map;
 @Configuration
 public class KafkaConfig {
 
-//    @Bean
-//    public KafkaAdmin kafkaAdmin() {
-//        Map<String, Object> configs = new HashMap<>();
-//        configs.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, "106.245.232.58:39194");
-//        configs.put(AdminClientConfig.CLIENT_ID_CONFIG, "migration-admin-client");
-//        return new KafkaAdmin(configs);
-//    }
 }
