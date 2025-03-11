@@ -1,13 +1,13 @@
-package com.hopoong.content.subscribing.worker;
+package com.hopoong.coupon.issuing.worker;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ContentSubscribingWorkerApplication {
+public class ContentCachingWorkerApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ContentSubscribingWorkerApplication.class, args);
+		SpringApplication.run(ContentCachingWorkerApplication.class, args);
 	}
 
 }
