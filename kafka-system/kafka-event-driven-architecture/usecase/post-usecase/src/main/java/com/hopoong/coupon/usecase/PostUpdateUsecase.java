@@ -1,4 +1,4 @@
-package com.hopoong.post.usecase;
+package com.hopoong.coupon.usecase;
 
 import com.hopoong.domain.Post;
 import lombok.Data;
