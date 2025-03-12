@@ -18,14 +18,14 @@ public class CouponIssueHistoryUsecaseService implements CouponIssueHistoryUseca
 
 
     @Override
-    public boolean isFirstRequestFromUser(Long couponEventId, Long userId) { // 첫번째 요청인지 확인
-        return couponIssueRequestHistoryPort.setHistoryIfNotExists(couponEventId, userId); // redis를 통해서 데이터를 조회 mason ****
+    public boolean isFirstRequestFromUser(Long couponEventId, Long userId) { // 쿠폰 발급 여부
+        return couponIssueRequestHistoryPort.setHistoryIfNotExists(couponEventId, userId); // redis를 통해서 데이터를 조회 ****
     }
 
     @Override
     public boolean hasRemainingCoupon(Long couponEventId) {
-        CouponEvent couponEvent = couponEventPort.findById(couponEventId); // 캐시로 변경 mason ****
-        return couponIssueRequestHistoryPort.getRequestSequentialNumber(couponEventId) <= couponEvent.getIssueLimit();
+        CouponEvent couponEvent = getCouponEventById(couponEventId); // 캐시를 통한 데이터 조회 ****
+        return couponIssueRequestHistoryPort.getRequestSequentialNumber(couponEventId) <= couponEvent.getIssueLimit(); // redis를 통해서 쿠폰 발행 갯수 확인 ****
     }
 
 

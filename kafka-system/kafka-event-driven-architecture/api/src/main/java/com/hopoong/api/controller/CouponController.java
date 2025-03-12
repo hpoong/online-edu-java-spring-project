@@ -29,11 +29,12 @@ public class CouponController {
     ResponseEntity<String> issue(
             @RequestBody CouponIssueRequest request
     ) {
+        // 해당 부분은 사실 동시성이 충분한 포인트는 아니다 Lua Script 추천한다.
         if (!couponIssueHistoryUsecase.isFirstRequestFromUser(request.getCouponEventId(), request.getUserId())) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Already tried to issue a coupon\n");
+            return ResponseEntity.status(HttpStatus.OK).body("Already tried to issue a coupon\n");
         }
         if (!couponIssueHistoryUsecase.hasRemainingCoupon(request.getCouponEventId())) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Not enough available coupons\n");
+            return ResponseEntity.status(HttpStatus.OK).body("Not enough available coupons\n");
         }
         requestCouponIssueUsecase.queue(request.getCouponEventId(), request.getUserId());
         return ResponseEntity.ok().body("Successfully Issued\n");

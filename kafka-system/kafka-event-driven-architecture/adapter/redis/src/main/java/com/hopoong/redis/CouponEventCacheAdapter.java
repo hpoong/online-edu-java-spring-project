@@ -15,7 +15,7 @@ import java.time.Duration;
 public class CouponEventCacheAdapter implements CouponEventCachePort {
 
     private static final String KEY_PREFIX = "coupon_event.v1:";
-    private static final Long EXPIRE_SECONDS = 60 * 2L;  // 2분
+    private static final Long EXPIRE_SECONDS = 60 * 10L;  // 10분
     private final CustomObjectMapper objectMapper = new CustomObjectMapper();
     private final RedisTemplate<String, String> redisTemplate;
 

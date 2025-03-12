@@ -20,16 +20,16 @@ public class CouponIssueRequestHistoryAdapter implements CouponIssueRequestHisto
 
 
 
-    // 유저의 발급 요청이력이 없다면 기록
+    // 쿠폰 발급 여부
     @Override
-    public boolean setHistoryIfNotExists(Long couponEventId, Long userId) {
+    public boolean setHistoryIfNotExists(Long couponEventId, Long userId) { // 유저의 발급 요청이력이 없다면 기록
         return redisTemplate.opsForValue().setIfAbsent(this.generateUserRequestHistoryCacheKey(couponEventId, userId),
                 "1",
                 Duration.ofSeconds(EXPIRE_SECONDS)
         );
     }
 
-    // 쿠폰 발급이 몇번쨰인지
+    // 쿠폰 발행 갯수 확인
     @Override
     public Long getRequestSequentialNumber(Long couponEventId) {
         String key = this.generateRequestCountHistoryCacheKey(couponEventId);
