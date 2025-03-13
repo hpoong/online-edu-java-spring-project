@@ -40,6 +40,8 @@ logs/
 setup/
 
 
+**/data/
+
 ### docker volume ###
 **/redis/data/
 **/kafka-data/
