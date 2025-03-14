@@ -1,0 +1,30 @@
+services:
+  jobmanager:
+    image: flink:scala_2.12
+    container_name: flink-jobmanager
+    volumes:
+      - ./lib/flink-connector-jdbc-1.16.3.jar:/opt/flink/lib/flink-connector-jdbc-1.16.3.jar
+      - ./lib/mysql-connector-java-8.0.19.jar:/opt/flink/lib/mysql-connector-java-8.0.19.jar
+    expose:
+      - "6123"
+    ports:
+      - "8081:8081"
+    environment:
+      - JOB_MANAGER_RPC_ADDRESS=localhost
+    command: jobmanager
+
+  taskmanager:
+    image: flink:scala_2.12
+    container_name: flink-taskmanager
+    volumes:
+      - ./lib/flink-connector-jdbc-1.16.3.jar:/opt/flink/lib/flink-connector-jdbc-1.16.3.jar
+      - ./lib/mysql-connector-java-8.0.19.jar:/opt/flink/lib/mysql-connector-java-8.0.19.jar
+    expose:
+      - "6121"
+      - "6122"
+    depends_on:
+      - jobmanager
+    environment:
+      - JOB_MANAGER_RPC_ADDRESS=localhost
+      - TASK_MANAGER_NUMBER_OF_TASK_SLOTS=2
+    command: taskmanager
